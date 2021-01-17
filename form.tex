@@ -1,0 +1,208 @@
+\documentclass{form}
+\usepackage{hyperref}
+\author{Diogo Rodrigues (\texttt{\href{mailto:up201806429@fe.up.pt}{up201806429@fe.up.pt}})}
+\title{RCOM -- Form}
+\renewcommand\rightmark{
+    Licensed under \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{CC BY-NC-ND 4.0 \vcenteredinclude{by-nc-nd-eu}}
+}
+% Document
+\begin{document}
+\noindent%\rule{\textwidth}{0.4pt}
+\begin{minipage}{0.75\textwidth}
+    \section*{Networks}
+    \begin{tabular}{p{16mm} | p{21mm} | l | l}
+        \textbf{Inter-processor distance} & \textbf{Processors in same} & \textbf{Type of network} & \textbf{Examples} \\ \hline
+        $\SI{    1}{     \meter}$ & Square meter & Personal Area Network (PAN)               & Bluetooth \\ \hline
+        $\SI{   10}{     \meter}$ & Room         & \multirow{3}{*}{Local Area Network (LAN)} & \multirow{3}{*}{Over switch network} \\ \cline{1-2}
+        $\SI{  100}{     \meter}$ & Building     &                                           & \\ \cline{1-2}
+        $\SI{    1}{\kilo\meter}$ & Campus       &                                           & \\ \hline
+        $\SI{   10}{\kilo\meter}$ & City         & Metropolitan Area Network (PAN)           & Cable TV \\ \hline
+        $\SI{  100}{\kilo\meter}$ & Country      & \multirow{2}{*}{Wide Area Network (PAN)}  & \multirow{2}{*}{ISP network} \\ \cline{1-2}
+        $\SI{ 1000}{\kilo\meter}$ & Continent    &                                           & \\ \hline
+        $\SI{10000}{\kilo\meter}$ & Planet       & Internet                                  & \\
+    \end{tabular}
+\end{minipage}%
+\begin{minipage}{0.25\textwidth}
+    \section*{Physical layer}
+    \subsection*{Shannon's Law}
+    \begin{equation*}
+        C = B_c \log_2{\left(1+\frac{P_r}{N_0 B_c}\right)}
+    \end{equation*}
+\end{minipage}
+
+\vspace{0.5em}\noindent\rule{\textwidth}{0.4pt}\vspace{-1em}
+\subsection*{OSI model}
+\begin{center}
+    \begin{tabular}{p{9mm} | l | l | l | l | l}
+        \multicolumn{3}{c|}{\textbf{Layer}}                    & Data unit                & Function                                                        & Protocols          \\ \hline
+        \multirow{4}{9mm}{Host layers}      & 7 & Application  & \multirow{3}{*}{Data}    & High-level APIs (resource sharing, remote file access)          &                    \\ \cline{2-3} \cline{5-6}
+                                            & 6 & Presentation &                          & Data translation (encoding, compression, encrypt/decrypt)       &                    \\ \cline{2-3} \cline{5-6}
+                                            & 5 & Session      &                          & Managing communication sessions                                 &                    \\ \cline{2-6}
+                                            & 4 & Transport    & Segment                  & Reliable segment transmission (segmentation, ACK)               & TCP, UDP           \\ \hline
+        \multirow{3}{9mm}{Media layers}     & 3 & Network      & Packet                   & Multi-node network (addressing, routing, traffic control)       & IP                 \\ \cline{2-6}
+                                            & 2 & Data link    & Frame                    & Reliable frame transmission between two nodes                   & ARP, MAC, Ethernet \\ \cline{2-6}
+                                            & 1 & Physical     & Bit, symbol              & Communication of raw bits over physical medium                  &                    \\
+    \end{tabular}
+\end{center}
+
+\vspace{-0.5em}\noindent\rule{\textwidth}{0.4pt}\vspace{0.5em}
+
+\noindent%\rule{\textwidth}{0.4pt}
+\begin{minipage}[c]{0.49\textwidth}
+    \section*{Data link layer}
+    \subsection*{Automatic Repeat Request (ARQ)}
+    \subsubsection*{Stop\&Wait}
+    Each received frame must be ACK, sender only sends next frame if all previous frames were acknowledged.
+
+    \begin{center}
+        \begin{alignat*}{2}
+            & a      &&= \frac{T_{prop}}{T_f} \\
+            & P[A=k] &&= p_e^{k-1} (1-p_e)\\
+            & E[A]   &&= \sum_{k=1}^{\infty}{k \times P[A=k]} = \frac{1}{1-p_e}\\
+            & S      &&= \frac{T_f}{E[A](T_f+2T_{prop})} = \frac{1}{E[A](1+2a)} = \frac{1-p_e}{1+2a}
+        \end{alignat*}
+    \end{center}
+\end{minipage}
+\begin{minipage}[c]{0.49\textwidth}
+    \subsubsection*{Go Back N}
+    Allows transmission before previous frames were ACK. Uses a sliding window of size $W$.
+    If an out-of-sequence frame is received, REJ is sent with the expected frame number.
+    \begin{equation*}
+        S = \begin{dcases}
+            \frac{1-p_e}{1+2ap_e}               & : W \geq 1+2a \\
+            \frac{W(1-p_e)}{(1+2a)(1-p_e+Wp_e)} & : W < 1+2a
+        \end{dcases}
+    \end{equation*}
+
+    \subsubsection*{Selective Repeat}
+    Similar to Go Back N, but receiver accepts out-of-sequence frames and notifies the sender to send only the missing frames.
+    \begin{equation*}
+        S = \begin{dcases}
+            1-p_e                 & : W \geq 1+2a \\
+            \frac{W(1-p_e)}{1+2a} & : W < 1+2a
+        \end{dcases}
+    \end{equation*}
+\end{minipage}
+
+\subsection*{Reliability in TCP/IP reference model}
+$C$ - link capacity; $PLR$ - Packet loss ratio; $K$ - number of links between sender and receiver; assume all links have same $C$ and $PLR$.
+\begin{center}
+    \begin{tabular}{l | p{120mm} | c}
+        \textbf{Strategy} & \textbf{Description} & \textbf{Efficiency}\\ \hline
+        Link-by-Link      & On error, the station closest to the sender notifies it. Repairs losses link by link. More complex, but better on very unreliable media. & $S=1-PLR$ \\
+        End-to-End        & On error, the receiver notifies the sender. Less complex, but not acceptable on very unreliable media. & $S=(1-PLR)^k$
+    \end{tabular}
+\end{center}
+
+\vspace{-0.5em}\noindent\rule{\textwidth}{0.4pt}\vspace{-1em}
+
+\section*{Delay models}
+\subsection*{Multiplexing}
+\begin{center}
+    \begin{tabular}{l | p{135mm} | l}
+        \textbf{Strategy}        & \textbf{Description}                                                                      & $T_{frame}$ \\ \hline
+        Statistical              & Transmitted on first-come first-served basis                                              & $L/C$       \\
+        Frequency division (FDM) & Link capacity $C$ divided into $m$ channels, each with bandwidth $W/m$ and capacity $C/m$ & $Lm/C$      \\
+        Time division (TDM)      & Link capacity $C$ divided into $m$ channels in the time axis, each with capacity $C/m$    & $Lm/C$      \\
+    \end{tabular}
+\end{center}
+
+\subsection*{Delay modelled as queue networks}
+
+On deterministic arrival, a client arrives at exactly every $\lambda$ time period.\\
+On Poisson arrivals, arrivals can be described by a Poisson distribution with $\expected[A]=1/\lambda$ and $\variance[A]=1/\lambda^2$.
+
+Kendall notation: A/S/s/K
+\begin{center}
+    \begin{tabular}{l | l | l | l | l}
+        \textbf{Symbol} & \textbf{Description}              & \textbf{M (Markovian)}   & \textbf{D (Degenerate)}      & \textbf{G (General)} \\ \hline
+        A               & Arrival statistical process       & Poisson process          & Fixed inter-arrival interval & General process      \\
+        S               & Service statistical process       & Exponential service time & Fixed service time           & General process      \\
+        s               & Number of servers                 &                          &                              &                      \\
+        K               & Capacity of the system in buffers &                          &                              &                     
+    \end{tabular}
+\end{center}
+On a general process, arrival/service times are independent and identically distributed, with given parameters $\expected[X]=1/\lambda$, $\expected[X^2]$ 
+
+\begin{center}
+    \begin{tabular}{c c c p{110mm}}
+        \begin{minipage}{0.17\textwidth}\subsection*{Little's theorem}\end{minipage} &
+        $N = \lambda \cdot T$ &
+        $N_W = \lambda \cdot T_W$ &
+        The time a client waits on queue $T_W$ depends only on the \# of clients in queue $N_W$ and the client arrival rate $\lambda$, but not on the service rate (!)
+    \end{tabular}
+\end{center}
+
+\subsection*{Queues}
+$P(n)$ -- Probability of Markov chain being in state $n$.
+\begin{center}
+    \begin{tabular}{l || c | c | c | c | c }
+        M/M/1   & $\displaystyle P(n) = \rho^n(1-\rho)$   & $\displaystyle N=\frac{\rho}{1-\rho}$ & $\displaystyle T=\frac{N}{\lambda} = \frac{1}{\mu-\lambda}$ & $\displaystyle T_W = T-T_S = \frac{\rho}{\mu(1-\rho)}$ & $\displaystyle N_W = T_W \rho = N-\rho$ \\ \hline
+        D/D/1   &                                         & $\displaystyle N=\rho$                & $\displaystyle T=1/\mu$                                     & $\displaystyle T_W = 0$                                & $\displaystyle N_W = 0$                 \\ \hline
+        M/M/1/B & \multicolumn{5}{c}{
+            \begin{minipage}{0.15\textwidth}
+                \vspace{-0.8em}
+                \begin{alignat*}{2}
+                    P(0) = \frac{1-\rho}{1-\rho^{B+1}} \\
+                    P(n) = \rho^n\cdot P(0)
+                \end{alignat*}
+            \end{minipage}
+            \begin{minipage}{0.35\textwidth}
+                \vspace{-0.8em}
+                \begin{equation*}
+                    \rho = 1 \implies P(B) = \frac{1}{B+1}
+                \end{equation*}
+            \end{minipage}
+            \begin{minipage}{0.30\textwidth}
+                \vspace{-0.8em}
+                \begin{equation*}
+                    \rho \gg 1 \implies P(B) = \frac{\rho-1}{\rho} = \frac{\lambda - \mu}{\lambda}
+                \end{equation*}
+            \end{minipage}
+        } \\ \hline
+        M/G/1   &                                         & $\displaystyle N=N_W + \rho$                & $\displaystyle T=T_W+1/\lambda$                             & $\displaystyle T_W = \frac{\lambda \expected[X^2]}{2(1-\rho)}$                    & $\displaystyle N_W = \lambda T_W$                 \\ \hline
+        M/D/1   & \multicolumn{5}{c}{Apply M/G/1 with $\expected[X]=1/\mu$, $\expected[X^2]=1/\mu^2$ }  \\ \hline
+    \end{tabular}
+\end{center}
+
+\noindent\rule{\textwidth}{0.4pt}\vspace{-1.5em}
+
+\section*{Variables}
+
+\begin{center}
+    \noindent%\rule{\textwidth}{0.4pt}
+    \begin{minipage}{0.49\textwidth}
+        \begin{tabular}{l l | p{59mm}}
+            $C$           & $[\SI{}{\bit/\second}     ]$ & Max. theoretical capacity of a channel                      \\
+            $B_c$         & $[\SI{}{\hertz}           ]$ & Channel bandwidth; or sampling rate                         \\
+            $P_r$         & $[\SI{}{\watt}            ]$ & Signal power as seen by the receiver                        \\
+            $N_0 B_c$     & $[\SI{}{\watt}            ]$ & Noise power within bandwidth $B_c$ as seen by the receiver  \\
+            $N_0$         & $[\SI{}{\watt/\hertz}     ]$ & Spectral density of white noise power                       \\
+            $P_r/N_0 B_c$ & $[1                       ]$ & Signal to noise ratio (SNR)                                 \\
+            $T_{prop}$    & $[\SI{}{\second}          ]$ & Propagation time from send. to rec.                         \\
+            $T_f$         & $[\SI{}{\second}          ]$ & Time to transfer a frame                                    \\
+            $a$           & $[1                       ]$ & Signal power as seen by the receiver                        \\
+            $p_e$         & $[1                       ]$ & Frame error probability                                     \\
+            $P[A=k]$      & $[1                       ]$ & Prob. of frame requiring $k$ attempts                       \\
+            $E[A]$        & $[1                       ]$ & Expected number of attempts                                 \\
+            $S$           & $[1                       ]$ & Efficiency                                                  \\
+        \end{tabular}
+    \end{minipage}
+    \begin{minipage}{0.49\textwidth}
+        \begin{tabular}{l l | p{59mm}}
+            $N$           & $[1                       ]$ & Average \# of clients in the system                         \\
+            $N_W$         & $[1                       ]$ & \# of clients waiting on queue                              \\
+            $N_S$         & $[1                       ]$ & \# of clients being served                                  \\
+            $T$           & $[\SI{}{\second}          ]$ & Average delay experienced by a client                       \\
+            $T_W$         & $[\SI{}{\second}          ]$ & Time a client waits on queue                                \\
+            $T_S$         & $[\SI{}{\second}          ]$ & Service time                                                \\
+            $\lambda$     & $[\SI{}{     \second^{-1}}]$ & Arrival rate of clients                                     \\
+                          & $[\SI{}{\bit/\second^{-1}}]$ &                                                             \\
+            $\mu$         & $[\SI{}{     \second^{-1}}]$ & Service rate                                                \\
+                          & $[\SI{}{\bit/\second^{-1}}]$ &                                                             \\
+            $\rho$        & $[1                       ]$ & Traffic intensity; $\rho = \lambda/\mu$                     \\
+        \end{tabular}
+    \end{minipage}
+\end{center}
+
+\end{document}
