@@ -72,6 +72,9 @@ Que protocolo de transporte (UDP ou TCP) usaria para as seguintes aplicações: 
 - d) Outra combinação.
 
 #### Pergunta 10
+
+![](10.png)
+
 Admita que 2 nós A e B se encontram interligados através da rede composta pelos comutadores R1 e R2 e pelas ligações bidirecionais com as capacidades indicadas na figura. Assumindo que o custo das ligações é inversamente proporcional ao valor da sua capacidade e que todos os pacotes enviados de A para B seguem o caminho de custo mínimo, o débito máximo possível entre A e B é de
 
 - a) 1 Mbit/s
