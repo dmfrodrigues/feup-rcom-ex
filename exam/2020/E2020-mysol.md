@@ -22,10 +22,10 @@ A eficiência de um canal rádio (bit/s/Hz), caracterizável pela lei de Shannon
 #### Pergunta 3
 
 Se a probabilidade de uma trama ser recebida com erros for F e se esta mesma trama for transmitida L vezes, então a probabilidade da trama ser recebida corretamente é
-- a) FL
-- b) 1-FL
-- c) 1-(1-F)L
-- d) 1-(1-L)F
+- a) F^L
+- b) 1-F^L
+- c) 1-(1-F)^L
+- d) 1-(1-L)^F
 
 #### Pergunta 4
 
@@ -38,10 +38,10 @@ Considere o mecanismo ARQ Selective-Repeat estudado nas aulas e usando 2 bits de
 #### Pergunta 5
 
 Considere uma interface de comunicações de rede modelizável por uma fila de espera M/M/1 caracterizada por uma taxa de chegada de λ pacote/s uma capacidade de C bit/s, que origina um número médio de pacotes na fila N e um atraso médio de T. Se esta fila passar a ser caracterizada por λ'=10.λ e C'=10.C, então, para o mesmo comprimento médio dos pacotes,
-- a) N’=N e T’=T
-- b) N’=N/10 e T’=T/10
-- c) N’=N e T’=T/10
-- d) N’=N/10 e T’=T
+- a) N'=N e T'=T
+- b) N'=N/10 e T'=T/10
+- c) N'=N e T'=T/10
+- d) N'=N/10 e T'=T
 
 #### Pergunta 6
 Assuma um cenário composto por 2 computadores A e B implementando o protocolo de acesso ao meio CSMA/CD (Collision Detection), e interligados entre si através de um comutador Ethernet. As portas de rede dos computadores e do comutador funcionam em modo full-duplex. Se o computador A estiver a transmitir uma trama e o computador B também tiver uma trama para transmitir, o computador B
