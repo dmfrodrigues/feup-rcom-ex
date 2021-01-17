@@ -65,7 +65,7 @@
 \end{minipage}
 \begin{minipage}[c]{0.49\textwidth}
     \subsubsection*{Go Back N}
-    Allows transmission before previous frames were ACK. Uses a sliding window of size $W$.
+    Allows transmission before previous frames were ACK. Uses a sliding window of size $W = M-1 = 2^k-1$ where $k$ is the number of bits used to encode sequence numbers.
     If an out-of-sequence frame is received, REJ is sent with the expected frame number.
     \begin{equation*}
         S = \begin{dcases}
@@ -76,6 +76,7 @@
 
     \subsubsection*{Selective Repeat}
     Similar to Go Back N, but receiver accepts out-of-sequence frames and notifies the sender to send only the missing frames.
+    $W = M/2 = 2^{k-1}$
     \begin{equation*}
         S = \begin{dcases}
             1-p_e                 & : W \geq 1+2a \\
@@ -167,6 +168,24 @@ $P(n)$ -- Probability of Markov chain being in state $n$.
 
 \noindent\rule{\textwidth}{0.4pt}\vspace{-1.5em}
 
+\section*{MAC sublayer}
+\subsection*{Random Access Protocols}
+\begin{center}
+    \begin{tabular}{p{21mm} | p{85mm} | p{30mm} | p{46mm}}
+        \textbf{Prot.} & \textbf{Description}                                                                                                                           & \textbf{Efficiency}                      & \textbf{Max. efficiency}                                                             \\ \hline
+        ALOHA          & Sends packet to the networks, waits for a round-trip time, and if no ACK arrived then delay the packet sending by a random time to 'try later' & Pure: $S=Ge^{-2G}$; Slotted: $S=Ge^{-G}$ & Pure: $S_{max}=1/2e=\SI{18.4}{\percent}$; Slotted: $S_{max}=1/e=\SI{36.8}{\percent}$ \\
+        CSMA           & \multicolumn{3}{p{170mm}}{Carrier Sense Multiple Access, first listens if there is traffic, only transmits if the channel is sensed free            } \\
+        CSMA Pers.     & \multicolumn{3}{p{170mm}}{If busy, waits until medium becomes free and then transmits (persistent)                                                  } \\
+        CSMA NonP.     & \multicolumn{3}{p{170mm}}{If busy, waits a random time and repeats (non-persistent)                                                                 } \\
+        CSMA p-Pe.     & \multicolumn{3}{p{170mm}}{If free, transmits with probability $p$, or defers transmission to next slot with probability $1-p$                       } \\
+        CSMA/CD        & \multicolumn{3}{p{170mm}}{Collision detection; similar to CSMA Persistent but if a collision is detected \textbf{during} transmission, it is aborted and retransmission is delayed using a Binary Exponential Backoff algorithm (if there were $i$ consecutive collisions, transmit in a random slot picked from slot set $[0, 2^i-1]$). Does not use ACKs. Slots have size $T_{slot}=2T_{prop}$. $\lim_{N \rightarrow\infty}{S}=1/(1+3.44a)$.} \\
+        CSMA/CA        & \multicolumn{3}{p{170mm}}{} \\
+    \end{tabular}
+\end{center}
+
+
+\noindent\rule{\textwidth}{0.4pt}\vspace{-1.5em}
+
 \section*{Variables}
 
 \begin{center}
@@ -186,6 +205,8 @@ $P(n)$ -- Probability of Markov chain being in state $n$.
             $P[A=k]$      & $[1                       ]$ & Prob. of frame requiring $k$ attempts                       \\
             $E[A]$        & $[1                       ]$ & Expected number of attempts                                 \\
             $S$           & $[1                       ]$ & Efficiency                                                  \\
+            $W$           & $[1                       ]$ & Maximum window size                                         \\
+            $M$           & $[1                       ]$ & Modulo of sequence numbers                                  \\
         \end{tabular}
     \end{minipage}
     \begin{minipage}{0.49\textwidth}
