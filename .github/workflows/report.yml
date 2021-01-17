@@ -1,0 +1,23 @@
+name: docs
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install latex
+      run: sudo apt install -y latexmk texlive-latex-extra texlive-science
+
+    - name: Compile form
+      run: latexmk -f -interaction=nonstopmode --shell-escape -pdf form.tex
+
+    - name: Upload form
+      uses: actions/upload-artifact@v2
+      with:
+        name: form.pdf
+        path: form.pdf
