@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
 
@@ -14,10 +14,12 @@ jobs:
       run: sudo apt install -y latexmk texlive-latex-extra texlive-science
 
     - name: Compile form
-      run: latexmk -f -interaction=nonstopmode --shell-escape -pdf form.tex
+      run: |
+        cd form
+        latexmk -f -interaction=nonstopmode --shell-escape -pdf form.tex
 
     - name: Upload form
       uses: actions/upload-artifact@v2
       with:
-        name: form.pdf
-        path: form.pdf
+        name: form
+        path: form/form.pdf
