@@ -53,15 +53,12 @@
     \subsection*{Automatic Repeat Request (ARQ)}
     \subsubsection*{Stop\&Wait}
     Each received frame must be ACK, sender only sends next frame if all previous frames were acknowledged.
-
-    \begin{center}
-        \begin{alignat*}{2}
-            & a      &&= \frac{T_{prop}}{T_f} \\
-            & P[A=k] &&= p_e^{k-1} (1-p_e)\\
-            & E[A]   &&= \sum_{k=1}^{\infty}{k \times P[A=k]} = \frac{1}{1-p_e}\\
-            & S      &&= \frac{T_f}{E[A](T_f+2T_{prop})} = \frac{1}{E[A](1+2a)} = \frac{1-p_e}{1+2a}
-        \end{alignat*}
-    \end{center}
+    \begin{alignat*}{2}
+        & a      &&= \frac{T_{prop}}{T_f} \\
+        & P[A=k] &&= p_e^{k-1} (1-p_e)\\
+        & E[A]   &&= \sum_{k=1}^{\infty}{k \times P[A=k]} = \frac{1}{1-p_e}\\
+        & S      &&= \frac{T_f}{E[A](T_f+2T_{prop})} = \frac{1}{E[A](1+2a)} = \frac{1-p_e}{1+2a}
+    \end{alignat*}
 \end{minipage}
 \begin{minipage}[c]{0.49\textwidth}
     \subsubsection*{Go Back N}
