@@ -168,8 +168,8 @@
 
 \begin{center}
     \begin{tabular}{@{}l || c | c | c | c | c @{}}
-        M/M/1   & $\displaystyle P(n) = \rho^n(1-\rho)$   & $\displaystyle N=\frac{\rho}{1-\rho}$ & $\displaystyle T=\frac{N}{\lambda} = \frac{1}{\mu-\lambda}$ & $\displaystyle T_W = T-T_S = \frac{\rho}{\mu(1-\rho)}$ & $\displaystyle N_W = T_W \rho = N-\rho$ \\ \hline
-        D/D/1   &                                         & $\displaystyle N=\rho$                & $\displaystyle T=1/\mu$                                     & $\displaystyle T_W = 0$                                & $\displaystyle N_W = 0$                 \\ \hline
+        M/M/1   & $\displaystyle P(n) = \rho^n(1-\rho)$   & $\displaystyle N=\frac{\rho}{1-\rho}$ & $\displaystyle T=\frac{N}{\lambda} = \frac{1}{\mu-\lambda}$ & $\displaystyle T_W = T-T_S = \frac{\rho}{\mu(1-\rho)}$ & $\displaystyle N_W = T_W \lambda = N-\rho$ \\ \hline
+        D/D/1   &                                         & $\displaystyle N=\rho$                & $\displaystyle T=1/\mu$                                     & $\displaystyle T_W = 0$                                & $\displaystyle N_W = 0$                    \\ \hline
         M/M/1/B & \multicolumn{5}{c}{
             \begin{minipage}{0.15\textwidth}
                 \vspace{-0.8em}
@@ -266,7 +266,7 @@
             $P_r/N_0 B_c$ & $[1                       ]$ & Signal to noise ratio (SNR)                                 \\
             $T_{prop}$    & $[\SI{}{\second}          ]$ & Propagation time from send. to rec.                         \\
             $T_f$         & $[\SI{}{\second}          ]$ & Time to transfer a frame                                    \\
-            $a$           & $[1                       ]$ & Signal power as seen by the receiver                        \\
+            $a$           & $[1                       ]$ & Ratio of $T_{prop}$ to $T_f$                                \\
             $p_e$         & $[1                       ]$ & Frame error probability                                     \\
             $P[A=k]$      & $[1                       ]$ & Prob. of frame requiring $k$ attempts                       \\
             $E[A]$        & $[1                       ]$ & Expected number of attempts                                 \\
