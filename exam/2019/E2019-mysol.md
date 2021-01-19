@@ -106,9 +106,11 @@ Se o objetivo continua a ser esconder, não faz sentido irem MAC addresses da re
 
 O valor da janela de congestionamento de uma ligação TCP
 - a) é calculado pelo emissor e mantém-se constante durante uma ligação TCP.
-- b) é calculado pelo emissor e pode variar durante uma ligação TCP.
+- b) é calculado pelo emissor e pode variar durante uma ligação TCP. :heavy_check_mark:
 - c) é calculado pelo recetor, enviado por este ao emissor no campo Window Size da mensagem de ACK e mantém-se constante durante uma a ligação TCP.
 - d) é calculado pelo recetor, enviado por este ao emissor no campo Window Size da mensagem de ACK e pode variar durante uma ligação TCP.
+
+**Justificação:** A janela de congestionamento, `CWND`, é calculada e mantida apenas pelo emissor, e pode variar dependendo de alterações na configuração da rede ou na carga sobre a rede.
 
 #### Pergunta 10
 
@@ -116,7 +118,9 @@ No protocolo FTP, em resposta ao pedido de transferência de dados em modo passi
 - a) O endereço da porta do cliente para a ligação de controlo.
 - b) O endereço da porta do cliente para a ligação de dados.
 - c) O endereço da porta do servidor para a ligação de controlo.
-- d) O endereço da porta do servidor para a ligação de dados.
+- d) O endereço da porta do servidor para a ligação de dados. :heavy_check_mark:
+
+**Justificação:** O servidor não sabe como funciona o client, por isso envia o endereço de porta de si próprio. Para colocar em modo passivo já é preciso ter uma ligação de controlo, logo obviamente a nova ligação será de dados.
 
 ### Parte 2
 
@@ -127,32 +131,75 @@ Duas estações comunicam usando uma ligação de dados baseada em mecanismos AR
 
 Calcule a eficiência máxima do protocolo para as variantes Stop and Wait, Go Back N e Selective Repeat. Calcule também os débitos máximos correspondentes.
 
+**Resposta:**
+
 |                        | Stop and Wait | Go Back N | Selective Repeat |
 |------------------------|---------------|-----------|------------------|
-| Eficiência máxima (%)  |               |           |                  |
-| Débito máximo (kbit/s) |               |           |                  |
+| Eficiência máxima (%)  | 20            | 60        | 40               |
+| Débito máximo (kbit/s) | 160           | 480       | 320              |
+
+k = 2  
+M = 4  
+C = 800 kbit/s = 8e5 bit/s  
+Tprop = 0.020 s  
+L = 8000 bit  
+Tf = L/C = 8000 bit / 8e5 bit/s = 0.01 s  
+a = Tprop/Tf = 0.020 s / 0.010 s = 2  
+
+| Stop and Wait       | Go Back N           | Selective Repeat    |
+|---------------------|---------------------|---------------------|
+|                     | W = M-1 = 3         | W = M/2 = 2         |
+| S = 1/(1+2a) = 0.20 | S = W/(1+2a) = 0.60 | S = W/(1+2a) = 0.40 |
+
+Debito = C*S
+
+| Stop and Wait       | Go Back N           | Selective Repeat    |
+|---------------------|---------------------|---------------------|
+| Debito = 160 kbit/s | Debito = 480 kbit/s | Debito = 320 kbit/s |
 
 ##### Item (b)
 
-Pretende-se analisar o efeito dos erros de transmissão e do tamanho das tramas de Informação. Considere tramas com tamanhos 1000 e 2000 octetos e uma situação de ruído caracterizada por Bit Error Ratio BER=10-4. Calcule a eficiência máxima dos três mecanismos para estes casos e discuta o comportamento destes mecanismos face ao aumento do tamanho das tramas
+Pretende-se analisar o efeito dos erros de transmissão e do tamanho das tramas de Informação. Considere tramas com tamanhos 1000 e 2000 octetos e uma situação de ruído caracterizada por Bit Error Ratio BER=10^(-4). Calcule a eficiência máxima dos três mecanismos para estes casos e discuta o comportamento destes mecanismos face ao aumento do tamanho das tramas
+
+Nota de resolução:
+- Comprimentos L diferentes originam FER's diferentes, Tframe's diferentes e a's diferentes
+
+**Resposta:**
 
 | Smax (%)         | Stop and Wait | Go Back N | Selective Repeat |
 |------------------|---------------|-----------|------------------|
-| L = 1000 octetos |               |           |                  |
-| L = 2000 octetos |               |           |                  |
+| L = 1000 octetos |  8.99         | 12.83     | 17.97            |
+| L = 2000 octetos |  6.73         |  7.78     | 13.46            |
 
-Nota de resolução:
+k = 2  
+M = 4  
+C = 800 kbit/s = 8e5 bit/s  
+Tprop = 0.020 s  
 
-- Comprimentos L diferentes originam FER's diferentes, Tframe's diferentes e a's diferentes
+L = 1000B:  
+Tf = L/C = 8000 bit / 8e5 bit/s = 0.01 s
+a = Tprop/Tf = 0.020 s / 0.010 s = 2
+pe = 1-(1-BER)^(L/bit) = 1-(1-10^(-4))^8000 = 0.55069
+
+| Stop and Wait              | Go Back N                                 | Selective Repeat            |
+|----------------------------|-------------------------------------------|-----------------------------|
+|                            | W = M-1 = 3                               | W = M/2 = 2                 |
+| S = (1-pe)/(1+2a) = 0.0899 | S = W(1-pe)/((1+2a)(1-pe+W\*pe)) = 0.1283 | S = W(1-pe)/(1+2a) = 0.1797 |
+
+
+L = 2000B:  
+Tf = L/C = 16000 bit / 8e5 bit/s = 0.02 s
+a = Tprop/Tf = 0.020 s / 0.020 s = 1
+pe = 1-(1-BER)^(L/bit) = 1-(1-10^(-4))^16000 = 0.79812
+
+| Stop and Wait              | Go Back N                                 | Selective Repeat            |
+|----------------------------|-------------------------------------------|-----------------------------|
+|                            | W = M-1 = 3                               | W = M/2 = 2                 |
+| S = (1-pe)/(1+2a) = 0.0673 | S = W(1-pe)/((1+2a)(1-pe+W\*pe)) = 0.0778 | S = W(1-pe)/(1+2a) = 0.1346 |
 
 ##### Item (c)
 
 Suponha que se pretendia fazer uma ligação para um satélite localizado a 30 000 km de altitude com um débito de 100 kbit/s. Para a eficiência máxima, tramas de 1000 octetos e transmissão feita num canal de 20kHz, qual seria número mínimo de bits necessários para numerar as tramas e qual seria a relação sinal-ruído (SNR – Signal to Noise Ratio) necessária no recetor, em dB. A velocidade da luz é de 3*10^8 m/s.
-
-|                   |    |
-|-------------------|----|
-| Número de bits, k |    |
-| SNR (dB)          |    |
 
 Notas de resolução:
 - Se SNR for elevado, BER~0 e FER~0
@@ -161,6 +208,37 @@ Notas de resolução:
 - A lei de Shannon dá-nos a capacidade máxima de um canal sem erros, atingível pelas tecnologias mais recentes: C= Bc log2 (1+SNR); neste caso Bc= 20 kHz
 - SNRdB= 10 log10(SNR)
 
+**Resposta:**
+
+|                   |      |
+|-------------------|------|
+| Número de bits, k | 3    |
+| SNR (dB)          | 14.9 |
+
+d = 3e7 m
+Debito = 100000 bit/s  
+L = 8000 bit
+B = 20000 Hz
+c = 3e8 m/s
+Tprop = d/c = 0.100 s
+Tf = L/C = 0.080 s
+a = Tprop/Tf = 1.25
+
+Vamos escolher o menor número de bits que permita obter a eficiência máxima; ou seja, escolher k tal que W ≥ 1+2a.  
+W = 1+2a = 3.5  
+GBN: k = 3 => W = 2^3-1 = 7, logo k=3 chega  
+SR: k = 3 => W = 2^(3-1) = 4, logo k=3 chega
+
+Assuma-se que SNR é elevado. Logo, BER~0 e FER~0. Assim, GBN e SR dão S = 1.
+
+Assim, C = Debito = 100000 bit/s
+
+Pela lei de Shannon,
+
+C = B log2(1+SNR) <=> SNR = 2^(C/B)-1 = 2^(100000 bit/s / 20000 Hz)-1 = 2^5-1 = 32-1 = 31
+
+SNR/dB = 10 log10(SNR) = 10*1.49 = 14.9
+
 #### Pergunta 2
 
 Através de uma porta de saída de um comutador de tramas é encaminhado tráfego recebido em 8 portas de entrada. Admita que a porta de saída tem uma capacidade de 100 Mbit/s e que todas as portas de entrada contribuem com fluxos de tráfego iguais.
@@ -168,11 +246,24 @@ Através de uma porta de saída de um comutador de tramas é encaminhado tráfeg
 ##### Item (a)
 Admitindo que poderemos usar uma fila M/M/1 para modelizar a porta de saída e que as tramas têm um comprimento médio de 500 Bytes, calcule o débito máximo de cada fluxo de entrada para que a porta de saída tenha uma utilização inferior a 90%. Calcule também o tempo médio de espera dos pacotes (Tw) e a ocupação média da fila de espera (Nw).
 
+**Resposta:**
+
 |                                               |       |
 |-----------------------------------------------|-------|
-| Débito de fluxo na porta de entrada, (Mbit/s) |       |
-| Tempo médio de atraso dos pacotes, Tw, (μs)   |       |
-| Ocupação média da fila de espera, Nw          |       |
+| Débito de fluxo na porta de entrada, (Mbit/s) | 11.25 |
+| Tempo médio de atraso dos pacotes, Tw, (μs)   | 360   |
+| Ocupação média da fila de espera, Nw          | 8.1   |
+
+L = 4000 bit
+μ = 100 Mbit/s = 25000 pac/s  
+ρ = 0.90
+ρ = λ/μ <=> λ = ρμ = 0.90 * 100 Mbit/s = 90 Mbit/s
+
+90 Mbit/s / 8 = 11.25 Mbit/s
+
+Tw = ρ/(μ(1-ρ)) = 0.00036 s = 360 μs
+
+Nw = Tw\*λ = (360 μs)\*(90 Mbit/s) = (360 μs)\*(0.0225 pac/μs) = 8.1 pac
 
 ##### Item (b)
 
@@ -183,42 +274,101 @@ Admita agora que a fila de espera é finita. Calcule o número mínimo de buffer
 
 | ---          | Situação (i) | Situação (ii) |
 |--------------|--------------|---------------|
-| Nº buffers B |              |               |
+| Nº buffers B | 23           | 99            |
+
+P(B) = 0.01  
+
+| Situação (i)                | Situação (ii)                                     |
+|-----------------------------|---------------------------------------------------|
+| ρ = 0.9                     | ρ = 1.0                                           |
+| P(B) = ρ^B(1-ρ)/(1-ρ^(B+1)) | P(B) = 1/(B+1) <=> B = (1/P(B))-1 = 1/0.01-1 = 99 |
+| B = 23                      |                                                   |
 
 ##### Item (c)
 
-Admita que o tráfego de entrada da alínea a) duplicava e que as tramas passavam e ter comprimento constante. Para suportar este tráfego pretende-se estudar duas situações alternativas:
+Admita que o tráfego de entrada da alínea a) duplicava e que as tramas passavam a ter comprimento constante. Para suportar este tráfego pretende-se estudar duas situações alternativas:
 
 1. duplicar a capacidade da porta de saída;
 2. constituir duas VLANs de 4 portas de entradas cada, associando a cada VLAN uma porta de saída de capacidade de 100 Mbit/s.
 
 Para estas duas situações, calcule o tempo médio de atraso do pacotes (T) e a ocupação média da fila (N). Indique, justificando, qual das duas soluções lhe parece ser a melhor.
 
+**Resposta:**
+
 |                                              | Situação (i) | Situação (ii) |
 |----------------------------------------------|--------------|---------------|
-| Tempo médio de atraso dos pacotes, T, (μs)   |              |               |
-| Ocupação média da fila de espera, N          |              |               |
+| Tempo médio de atraso dos pacotes, T, (μs)   | 110          | 220           |
+| Ocupação média da fila de espera, N          | 4.95         | 4.95          |
 
-Notas de resolução:
-- Comprimento constante dos pacotes → fila M/D/1
-- Tw = ρ/[2μ(1-ρ)]
-- Situação (i): μ(i) = 2μ ; λ(i) = 2λ ; ρ(i) = ρ
-- Situação (ii): μ(ii)= μ ; λ(ii) = λ ; ρ(ii) = ρ
+L = 4000 bit  
+λ = 180 Mbit/s = 45000 pac/s  
+
+| Situação (i)                                  | Situação (ii)                                             |
+|-----------------------------------------------|-----------------------------------------------------------|
+| μ = 200 Mbit/s = 50000 pac/s                  | μ = 100 Mbit/s = 25000 pac/s, λ = 90 Mbit/s = 22500 pac/s |
+| ρ = λ/μ = 0.90                                | ρ = λ/μ = 0.90                                            |
+| Tw = ρ/(2μ(1-ρ)) = 0.00009 s                  | Tw = ρ/(2μ(1-ρ)) = 0.00018 s                              |
+| T = Tw+1/μ = 0.00011 s = 110 μs               | T = Tw+1/μ = 0.00022 s = 220 μs                           |
+| N = λT = 4.95 pac                             | N = λT = 4.95 pac                                         |
+
+As duas opções possuem a mesma ocupação média da fila de espera, que é relativamente pequena e por isso não serve de desempate.  
+Já o tempo médio de atraso dos pacotes na situação (i) é metade da situação (ii), o que significa que o lag provocado pelo comutador é menor na situação (i). Assim, escolheria a situação (i), por permitir ter metade do lag.
 
 #### Pergunta 3
+
+![](p-03.png)
 
 Considere que a uma empresa foi atribuído o bloco de endereços IP 77.77.77.128/26. A empresa tem uma rede de comunicações com a arquitetura descrita na figura, composta por 3 routers (R1, R2, R3) e 2 switches Ethernet. Um dos switches serve 25 computadores e outro serve 10 computadores. Os routers estão interligados por ligações ponto-a-ponto e a algumas destas ligações estão já atribuídos os endereços indicados na figura. As ligações entre os routers R1, R2 e R3 têm as capacidades indicadas nas figura.
 
 ##### Item (a)
 
-Calcule os endereços associados às redes indicadas. A endereço da rede da ligação R1-R3 deverá ser o mais
-baixo possível.
+Calcule os endereços associados às redes indicadas. A endereço da rede da ligação R1-R3 deverá ser o mais baixo possível.
+
+**Resposta:**
 
 |                          | Endereço da subrede (endereço/máscara) | Endereço de broadcast da subrede | Nº de endereços de interfaces |
 |--------------------------|----------------------------------------|----------------------------------|-------------------------------|
-| Rede dos 25 computadores |                                        |                                  |                               |
-| Rede dos 10 computadores |                                        |                                  |                               |
-| Rede da ligação R1-R3    |                                        |                                  |                               |
+| Rede dos 25 computadores | 77.77.77.10?00000/27                   | 77.77.77.10?11111                | 30                            |
+| Rede dos 10 computadores | 77.77.77.10??0000/28                   | 77.77.77.10??1111                | 14                            |
+| Rede da ligação R1-R3    | 77.77.77.10????00/30                   | 77.77.77.10????11                | 2                             |
+
+A rede de 25C tem que ser 77.77.77.10000000, senão seria 77.77.77.10100000, o que significaria que as redes 77.77.77.172/30 e 77.77.77.168/30 "retirariam" cada uma 4 endereços a 77.77.77.10000000, o que significaria que a rede de 25C, que tinha inicialmente 32 IPs, passaria a ter 24; menos o endereço de rede e broadcast, 22, o que não chegaria para atribuir IPs aos 25 computadores.
+
+|                          | Endereço da subrede (endereço/máscara) | Endereço de broadcast da subrede | Nº de endereços de interfaces |
+|--------------------------|----------------------------------------|----------------------------------|-------------------------------|
+| Rede dos 25 computadores | 77.77.77.10000000/27                   | 77.77.77.10?11111                | 30                            |
+| Rede dos 10 computadores | 77.77.77.10??0000/28                   | 77.77.77.10??1111                | 14                            |
+| Rede da ligação R1-R3    | 77.77.77.10????00/30                   | 77.77.77.10????11                | 2                             |
+
+O ultimo octeto das outras duas redes têm assim que começar em 101, para não retirarem IPs à rede de 25C
+
+|                          | Endereço da subrede (endereço/máscara) | Endereço de broadcast da subrede | Nº de endereços de interfaces |
+|--------------------------|----------------------------------------|----------------------------------|-------------------------------|
+| Rede dos 25 computadores | 77.77.77.10000000/27                   | 77.77.77.10?11111                | 30                            |
+| Rede dos 10 computadores | 77.77.77.101?0000/28                   | 77.77.77.10??1111                | 14                            |
+| Rede da ligação R1-R3    | 77.77.77.101???00/30                   | 77.77.77.10????11                | 2                             |
+
+Para as 2a rede não sere "roubadas" pelas duas ligações de router, o ultimo octeto tem que começar por 1011
+
+|                          | Endereço da subrede (endereço/máscara) | Endereço de broadcast da subrede | Nº de endereços de interfaces |
+|--------------------------|----------------------------------------|----------------------------------|-------------------------------|
+| Rede dos 25 computadores | 77.77.77.10000000/27                   | 77.77.77.10?11111                | 30                            |
+| Rede dos 10 computadores | 77.77.77.10110000/28                   | 77.77.77.10??1111                | 14                            |
+| Rede da ligação R1-R3    | 77.77.77.101???00/30                   | 77.77.77.10????11                | 2                             |
+
+Só falta a ultima rede. Podemos escolher quatro opções: 10100000, 10100100, 10101000, 10101100. 10101000 e 10101100 estão tomadas pelas outras ligações entre routers, sobrando assim 10100000, 10100100. A menos é 10100000, logo escolhemos essa
+
+|                          | Endereço da subrede (endereço/máscara) | Endereço de broadcast da subrede | Nº de endereços de interfaces |
+|--------------------------|----------------------------------------|----------------------------------|-------------------------------|
+| Rede dos 25 computadores | 77.77.77.10000000/27                   | 77.77.77.10011111                | 30                            |
+| Rede dos 10 computadores | 77.77.77.10110000/28                   | 77.77.77.10111111                | 14                            |
+| Rede da ligação R1-R3    | 77.77.77.10100000/30                   | 77.77.77.10100011                | 2                             |
+
+|                          | Endereço da subrede (endereço/máscara) | Endereço de broadcast da subrede | Nº de endereços de interfaces |
+|--------------------------|----------------------------------------|----------------------------------|-------------------------------|
+| Rede dos 25 computadores | 77.77.77.128/27                        | 77.77.77.159                     | 30                            |
+| Rede dos 10 computadores | 77.77.77.176/28                        | 77.77.77.191                     | 14                            |
+| Rede da ligação R1-R3    | 77.77.77.160/30                        | 77.77.77.163                     | 2                             |
 
 ##### Item (b)
 
@@ -226,16 +376,18 @@ Atribua endereços IP às interfaces de rede indicadas na tabela. Use os endere�
 
 | Interface Router | Endereço IP  |
 |------------------|--------------|
-| R1.eth0          |              |
-| R2.eth2          |              |
-| R2.eth0          |              |
-| R2.eth1          |              |
-| R3.eth1          |              |
+| R1.eth0          | 77.77.77.173 |
+| R2.eth2          | 77.77.77.174 |
+| R2.eth0          | 77.77.77.177 |
+| R2.eth1          | 77.77.77.169 |
+| R3.eth1          | 77.77.77.170 |
 
 ##### Item (c)
 
-Escreva a tabela de encaminhamento do router R2. Este router deverá ser capaz enviar pacotes para todos os endereços IP unicast e os pacotes deverão ser encaminhados pelos caminhos de custo mais baixo. Assuma que o custo de uma ligação é o inverso (1/x) da sua capacidade; por exemplo, a ligação com capacidade de 1 Gbit s tem um custo de 10-9. Use o menor número possível de entradas na tabela.
+Escreva a tabela de encaminhamento do router R2. Este router deverá ser capaz enviar pacotes para todos os endereços IP unicast e os pacotes deverão ser encaminhados pelos caminhos de custo mais baixo. Assuma que o custo de uma ligação é o inverso (1/x) da sua capacidade; por exemplo, a ligação com capacidade de 1 Gbit s tem um custo de 10^(-9). Use o menor número possível de entradas na tabela.
 
 | Destino (endereço/máscara) | Gateway      | Interface |
 |----------------------------|--------------|-----------|
-|                            |              |           |
+| 77.77.77.176/28            | 0.0.0.0      | eth0      |
+
+| 0/0                        | 77.77.77.170 | eth1      |
