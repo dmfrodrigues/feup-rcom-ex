@@ -161,10 +161,17 @@
     \vspace{0.5em}
 
     The time a client waits on queue $T_W$ depends only on the \# of clients in queue $N_W$ and the client arrival rate $\lambda$, but not on the service rate (!).
-
-    \subsection*{Queues}
-    $P(n)$ -- Probability of Markov chain being in state $n$.
 \end{minipage}%
+
+\pagebreak
+
+\noindent
+\begin{minipage}{0.1\textwidth}
+    \subsection*{Queues}
+\end{minipage}%
+\begin{minipage}{0.9\textwidth}
+    $P(n)$ -- Probability of Markov chain being in state $n$.
+\end{minipage}
 
 \begin{center}
     \begin{tabular}{@{}l || c | c | c | c | c @{}}
@@ -250,13 +257,12 @@
     Start with small \texttt{CWND}, and double it for each RTT; when segment is lost (detected by timeout), a threshold is defined at half \texttt{CWND}, then \texttt{CWND} is reset, increases exponentially until it reaches threshold, and then increases linearly (\textbf{congestion avoidance} phase)
 \end{minipage}
 
-\noindent\rule{\textwidth}{1.0pt}\vspace{-1em}
-
-\section*{Variables}
+\noindent\rule{\textwidth}{1.0pt}\vspace{-0em}
 
 \begin{center}
     \noindent%\rule{\textwidth}{1.0pt}
     \begin{minipage}{0.49\textwidth}
+        \section*{Variables}
         \begin{tabular}{@{}l l | p{59mm}@{}}
             $C$           & $[\SI{}{\bit/\second}     ]$ & Max. theoretical capacity of a channel                      \\
             $B_c$         & $[\SI{}{\hertz}           ]$ & Channel bandwidth                                           \\
@@ -270,11 +276,11 @@
             $p_e$         & $[1                       ]$ & Frame error probability                                     \\
             $P[A=k]$      & $[1                       ]$ & Prob. of frame requiring $k$ attempts                       \\
             $E[A]$        & $[1                       ]$ & Expected number of attempts                                 \\
-            $S$           & $[1                       ]$ & Efficiency                                                  \\
         \end{tabular}
     \end{minipage}
     \begin{minipage}{0.49\textwidth}
         \begin{tabular}{l l | p{59mm}}
+            $S$           & $[1                       ]$ & Efficiency                                                  \\
             $W$           & $[1                       ]$ & Maximum window size                                         \\
             $M$           & $[1                       ]$ & Modulo of sequence numbers                                  \\
             $N$           & $[1                       ]$ & Average \# of clients in the system                         \\

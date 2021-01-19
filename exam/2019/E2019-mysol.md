@@ -325,7 +325,7 @@ Considere que a uma empresa foi atribuído o bloco de endereços IP 77.77.77.128
 Calcule os endereços associados às redes indicadas. A endereço da rede da ligação R1-R3 deverá ser o mais baixo possível.
 
 **Resposta:**
-
+<!--
 |                          | Endereço da subrede (endereço/máscara) | Endereço de broadcast da subrede | Nº de endereços de interfaces |
 |--------------------------|----------------------------------------|----------------------------------|-------------------------------|
 | Rede dos 25 computadores | 77.77.77.10?00000/27                   | 77.77.77.10?11111                | 30                            |
@@ -363,6 +363,7 @@ Só falta a ultima rede. Podemos escolher quatro opções: 10100000, 10100100, 1
 | Rede dos 25 computadores | 77.77.77.10000000/27                   | 77.77.77.10011111                | 30                            |
 | Rede dos 10 computadores | 77.77.77.10110000/28                   | 77.77.77.10111111                | 14                            |
 | Rede da ligação R1-R3    | 77.77.77.10100000/30                   | 77.77.77.10100011                | 2                             |
+-->
 
 |                          | Endereço da subrede (endereço/máscara) | Endereço de broadcast da subrede | Nº de endereços de interfaces |
 |--------------------------|----------------------------------------|----------------------------------|-------------------------------|
@@ -388,6 +389,7 @@ Escreva a tabela de encaminhamento do router R2. Este router deverá ser capaz e
 
 | Destino (endereço/máscara) | Gateway      | Interface |
 |----------------------------|--------------|-----------|
-| 77.77.77.176/28            | 0.0.0.0      | eth0      |
-
+| 77.77.77.176/28            | -            | eth0      |
+| 77.77.77.172/30            | -            | eth2      |
+| 77.77.77.168/30            | -            | eth2      |
 | 0/0                        | 77.77.77.170 | eth1      |
