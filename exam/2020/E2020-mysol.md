@@ -244,13 +244,26 @@ Prob[NumPacotes > 0]ii = 1-(1-0.6)/(1-0.6^(1+1)) = 1-(1-0.6)/(1-0.36) = 1-0.4/0.
 
 Admita que, nas condições da alínea a), os pacotes passavam a ter um comprimento constante de 1500 Bytes. Calcule a capacidade da linha de transmissão, a ocupação média da fila de espera e o tempo médio de atraso dos pacotes. Discuta e compare estes resultados com os resultados obtidos na alínea a).
 
+**Resposta:**
+
 |                                            |      |
 |--------------------------------------------|------|
-| Capacidade da linha (Mbit/s)               | TODO |
-| Ocupação média da fila de espera, Nw       | TODO |
-| Tempo médio de atraso dos pacotes, T, (ms) | TODO |
+| Capacidade da linha (Mbit/s)               | 12   |
+| Ocupação média da fila de espera, Nw       | 0.45 |
+| Tempo médio de atraso dos pacotes, T, (ms) | 1.75 |
+
+Como os pacotes têm comprimento constante, o tempo de serviço deixa de ter distribuição de Poisson e passa a ser constante. Assim, podemos modelar este problema como uma fila M/D/1.
+
+λ = 600 pac/s  
+μ = 12e6 bit/s = 1000 pac/s  
+ρ = 0.60  
+Tw = ρ/(2μ(1−ρ)) = 0.00075 s/pac  
+Nw = λ\*Tw = 0.45  
+T = Tw+1/μ = 0.00175 s/pac = 1.75 ms/pac 
 
 #### Pergunta 3
+
+![](p-03.png)
 
 À Empresa A foi atribuído o bloco de endereços 77.77.77.64/26. A empresa tem um rede de comunicações com a arquitetura descrita na figura, composta por dois routers (R1 e R2) e dois comutadores Ethernet (S1 e S2). O comutador S1 tem configurada a VLAN1 que serve 4 computadores. O comutador S2 tem configurada a VLAN2 e a VLAN3 que servem respetivamente 10 e 28 computadores. Os routers R1 e R2 estão interligados por uma ligação ponto-a-ponto que usa o endereço de rede indicado na figura.
 
@@ -258,11 +271,42 @@ Admita que, nas condições da alínea a), os pacotes passavam a ter um comprime
 
 Calcule os endereços associados às redes indicadas.
 
+**Resposta:**
+
+
+Primeiro, calculamos o número de endereços de interfaces que seja o menor possível mas que permita atribuir um endereço a todos os computadores, em cada rede.
+
 |       | Endereço da subrede (endereço/máscara) | Endereço de broadcast da subrede | Nº de endereços de interfaces |
 |-------|----------------------------------------|----------------------------------|-------------------------------|
-| VLAN1 | TODO                                   | TODO                             | TODO                          |
-| VLAN2 | TODO                                   | TODO                             | TODO                          |
-| VLAN3 | TODO                                   | TODO                             | TODO                          |
+| VLAN1 | 77.77.77.??/29                         | TODO                             | 6  (=2^3-2)                   |
+| VLAN2 | 77.77.77.??/28                         | TODO                             | 14 (=2^4-2)                   |
+| VLAN3 | 77.77.77.??/27                         | TODO                             | 30 (=2^5-2)                   |
+
+Depois preenchemos os bits de acordo com a mask de cada rede, e tendo em conta que a empresa recebeu o bloco 77.77.77.64/26 (77.77.77.01??????)
+
+|       | Endereço da subrede (endereço/máscara) | Endereço de broadcast da subrede | Nº de endereços de interfaces |
+|-------|----------------------------------------|----------------------------------|-------------------------------|
+| VLAN1 | 77.77.77.01???000/29                   | 77.77.77.01???111                | 6                             |
+| VLAN2 | 77.77.77.01??0000/28                   | 77.77.77.01??1111                | 14                            |
+| VLAN3 | 77.77.77.01?00000/27                   | 77.77.77.01?11111                | 30                            |
+
+Em VLAN3, o último octeto não pode ser 01000000 porque seria igual ao endereço de R2, logo o endereço da subrede VLAN3 é 77.77.77.01100000/27 = 77.77.77.90/27  
+Em VLAN1 e VLAN2, o último octeto não pode começar em 011, dado que esses endereços pertencem a VLAN3; logo, ambos começam com 010.  
+Em VLAN2, o último octeto não pode ser 01000000 porque esse endereço é o do R2, logo o endereço da subrede VLAN2 é 77.77.77.01010000/28 = 77.77.77.80/28  
+Assim sobra VLAN1, que não pode ter o último octeto a começar por 0101 nem por 01001 (ambos pertencem a VLAN2), logo o endereço da subrede VLAN1 é 77.77.77.01001000 = 77.77.77.72/29
+
+|       | Endereço da subrede (endereço/máscara) | Endereço de broadcast da subrede | Nº de endereços de interfaces |
+|-------|----------------------------------------|----------------------------------|-------------------------------|
+| VLAN1 | 77.77.77.01001000/29                   | 77.77.77.01001111                | 6                             |
+| VLAN2 | 77.77.77.01010000/28                   | 77.77.77.01011111                | 14                            |
+| VLAN3 | 77.77.77.01100000/27                   | 77.77.77.01111111                | 30                            |
+
+|       | Endereço da subrede (endereço/máscara) | Endereço de broadcast da subrede | Nº de endereços de interfaces |
+|-------|----------------------------------------|----------------------------------|-------------------------------|
+| VLAN1 | 77.77.77.72/29                         | 77.77.77.79                      | 6                             |
+| VLAN2 | 77.77.77.80/28                         | 77.77.77.95                      | 14                            |
+| VLAN3 | 77.77.77.90/27                         | 77.77.77.127                     | 30                            |
+
 
 ##### Item (b)
 
@@ -270,10 +314,10 @@ Atribua endereços IP às interfaces de rede indicadas na tabela. Use os endere�
 
 | Router.interface | Endereço(s) IP            |
 |------------------|---------------------------|
-| R1.eth1          | TODO                      |
-| R2.eth1          | TODO                      |
-| R1.eth2          | TODO                      |
-| R2.eth0          | TODO                      |
+| R1.eth1          | 77.77.77.65               |
+| R2.eth1          | 77.77.77.66               |
+| R1.eth2          | 77.77.77.78               |
+| R2.eth0          | 77.77.77.126              |
 
 ##### Item (c)
 
@@ -285,5 +329,6 @@ TODO
 
 | Destino (endereço/máscara) | Gateway     | Interface | 
 |----------------------------|-------------|-----------|
-|                            |             |           |
-
+| 0/0                        | 77.77.77.65 | eth1      |
+| 77.77.77.80/28             | 0.0.0.0     | eth0      |
+| 77.77.77.90/27             | 0.0.0.0     | eth0      |
