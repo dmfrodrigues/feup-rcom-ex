@@ -158,8 +158,8 @@ $P(n)$ -- Probability of Markov chain being in state $n$.
                 \end{equation*}
             \end{minipage}
         } \\ \hline
-        M/G/1   &                                         & $\displaystyle N=N_W + \rho$                & $\displaystyle T=T_W+1/\lambda$                             & $\displaystyle T_W = \frac{\lambda \expected[X^2]}{2(1-\rho)}$                    & $\displaystyle N_W = \lambda T_W$                 \\ \hline
-        M/D/1   & \multicolumn{5}{c}{Apply M/G/1 with $\expected[X]=1/\mu$, $\expected[X^2]=1/\mu^2$ }  \\ \hline
+        M/G/1   &                                         & $\displaystyle N=N_W + \rho$                & $\displaystyle T=T_W+1/\mu$                             & $\displaystyle T_W = \frac{\lambda \expected[X^2]}{2(1-\rho)}$                    & $\displaystyle N_W = \lambda T_W$                 \\ \hline
+        M/D/1   & $\expected[X]=1/\mu$, $\expected[X^2]=1/\mu^2$ & $\displaystyle N=N_W + \rho$                & $\displaystyle T=T_W+1/\mu$                             & $\displaystyle T_W = \frac{\rho}{2 \mu (1-\rho)}$                    & $\displaystyle N_W = \frac{\rho^2}{2 (1-\rho)}$                 \\
     \end{tabular}
 \end{center}
 
