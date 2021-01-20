@@ -10,7 +10,7 @@ Uma rede composta por um conjunto de routers IP interligados entre si constitui
 - c) Uma rede de comutação de pacotes e oferece um serviço orientado às ligações.
 - d) Uma rede de comutação de pacotes e oferece um serviço não orientado às ligações. :heavy_check_mark:
 
-**Justificação:** Se são vários routers interligados então não é uma rede de circuitos virtuais, mas sim uma rede de comutação de pacotes. Uma rede não ofereçe um serviço orientado às ligações, dado que numa rede quaisquer dois routers podem comunicar, tanto diretamente como através de outros routers.
+**Justificação:** Se são vários routers interligados então não é uma rede de circuitos virtuais, mas sim uma rede de comutação de pacotes. Uma rede não ofereçe um serviço orientado às ligações, dado que o protocolo IP não refere o que é uma ligação (por exemplo, TCP define o que é uma ligação, e TCP é baseado em ligações).
 
 #### Pergunta 2
 
@@ -90,7 +90,9 @@ Tf = 1/C
 a=Tprop/Tf=0.5R/(1/C)=0.5RC  
 S=W/(1+2a)=W/(1+RC)  
 Debito=S*C=W/(1/C+R)  
-Assumindo que C é grande, 1/C é pequeno e o débito fica W/R. Mas não tenho a certeza
+Assumindo que C é grande, 1/C é pequeno e o débito fica W/R.
+
+De forma mais simples: usando o teorema de Little, N = λT <=> λ = N/T. O débito médio é λ por definição, N é o número médio de clientes na fila (que é equivalente ao tamanho da janela W), e T é o tempo total no sistema (que é equivalente a R).
 
 #### Pergunta 9
 Que protocolo de transporte (UDP ou TCP) usaria para as seguintes aplicações: A1) obtenção de informação do servidor de nomes DNS; A2) envio de um email; A3) transferência de voz em pacotes.
@@ -191,12 +193,29 @@ no Cenário A usa-se um código que aumenta o tamanho da trama em 10% e origina 
 no Cenário B usa-se um código que aumenta o tamanho da trama em 30% e origina um FER de 5%.
 
 Assuma as condições da alínea a).
+
 Calcule a eficiência máxima e o débito máximo útil para os 2 cenários.
+
+**Resposta:**
 
 | Selective Repeat ARQ        | Cenário A | Cenário B |
 |-----------------------------|-----------|-----------|
-| Eficiência máxima (%)       | TODO      | TODO      |
-| Débito máximo útil (kbit/s) | TODO      | TODO      |
+| Eficiência máxima (%)       | 6.33      | 7.89      |
+| Débito máximo útil (kbit/s) | 115       | 121       |
+
+C = 2 Mbit/s = 2e6 bit/s  
+Tprop = 0.250 s  
+W = 64/2 = 32  
+
+
+| Cenário A                                    | Cenário B                                  |
+|----------------------------------------------|--------------------------------------------|
+| L = 2200 bit                                 | L = 2600 bit                               |
+| pe = 0.10                                    | pe = 0.05                                  |
+| Tf = L/C = 2200 bit / 2e6 bit/s = 0.0011 s   | Tf = L/C = 2600 bit / 2e6 bit/s = 0.0013 s |
+| a = Tprop/Tf = 0.250 s / 0.0011 s = 227      | a = Tprop/Tf = 0.250 s / 0.0013 s = 192    |
+| S = W(1-pe)/(1+2a) = 0.0633                  | S = W(1-pe)/(1+2a) = 0.0789                |
+| Debito = S\*C/ratio, ratio=1.1               | Debito = S\*C/ratio, ratio=1.3             |
 
 #### Pergunta 2
 Admita que um sistema de transmissão é modelizado por uma fila de espera M/M/1 de capacidade infinita. Verifica-se que em média chegam ao sistema 600 pacote/s, de comprimento médio 1500 Bytes, e que a linha de transmissão está vazia em 40% do tempo.
@@ -305,7 +324,7 @@ Assim sobra VLAN1, que não pode ter o último octeto a começar por 0101 nem po
 |-------|----------------------------------------|----------------------------------|-------------------------------|
 | VLAN1 | 77.77.77.72/29                         | 77.77.77.79                      | 6                             |
 | VLAN2 | 77.77.77.80/28                         | 77.77.77.95                      | 14                            |
-| VLAN3 | 77.77.77.90/27                         | 77.77.77.127                     | 30                            |
+| VLAN3 | 77.77.77.96/27                         | 77.77.77.127                     | 30                            |
 
 
 ##### Item (b)
@@ -330,5 +349,5 @@ TODO
 | Destino (endereço/máscara) | Gateway     | Interface | 
 |----------------------------|-------------|-----------|
 | 0/0                        | 77.77.77.65 | eth1      |
-| 77.77.77.80/28             | 0.0.0.0     | eth0      |
-| 77.77.77.90/27             | 0.0.0.0     | eth0      |
+| 77.77.77.80/28             | -           | eth0      |
+| 77.77.77.96/27             | -           | eth0      |
