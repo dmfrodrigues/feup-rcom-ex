@@ -7,11 +7,34 @@
 }
 % Document
 \begin{document}
+
+% \noindent%\rule{\textwidth}{1.0pt}
+% \begin{minipage}{0.49\textwidth}
+%     \section*{Tips \& tricks}
+% \end{minipage}%
+% \begin{minipage}{0.49\textwidth}
+    
+% \end{minipage}
+
+\begin{multicols}{2}
+    \section*{Tips \& tricks}
+    \begin{enumerate}
+        \setlength\itemsep{0em}
+        \item $P/\SI{}{\deci B} = P/\SI{}{\deci B \watt} = 10 \log_{10}{(P/\SI{}{\watt})}$
+        \item $P/\SI{}{\deci B \milli} = 10 \log_{10}{(P/\SI{}{\milli\watt})}$
+        \item Use a subnetwork tree to figure out which IP addresses have already been used.
+        \item In redirect table problems, first create a redirect for all subnets, and then remove those entries that have gateway and interface equal to the default gateway.
+        \item Pay close attention to what the question is asking for: throughput (débito), useful throughput (débito útil/sem bits de verificação)
+    \end{enumerate}
+\end{multicols}
+
+\vspace{-1.5em}\noindent\rule{\textwidth}{1.0pt}\vspace{-0em}
+
 \noindent%\rule{\textwidth}{1.0pt}
-\begin{minipage}{0.62\textwidth}
+\begin{minipage}{0.64\textwidth}
     \section*{Networks}
-    \begin{tabular}{@{}p{16mm} | p{21mm} | l | p{19mm}@{}}
-        \textbf{Inter-processor distance} & \textbf{Processors in same} & \textbf{Type of network} & \textbf{Examples} \\ \hline
+    \begin{tabular}{@{}p{19mm} | p{21mm} | l | p{19mm}@{}}
+        \textbf{Inter-CPU distance} & \textbf{Processors in same} & \textbf{Type of network} & \textbf{Examples} \\ \hline
         $\SI{    1}{     \meter}$ & Square meter & Personal Area Network (PAN)               & Bluetooth \\ \hline
         $\SI{   10}{     \meter}$ & Room         & \multirow{3}{*}{Local Area Network (LAN)} & \multirow{3}{19mm}{Over switch network} \\ \cline{1-2}
         $\SI{  100}{     \meter}$ & Building     &                                           & \\ \cline{1-2}
@@ -22,20 +45,21 @@
         $\SI{10000}{\kilo\meter}$ & Planet       & Internet                                  & \\
     \end{tabular}
 \end{minipage}%
-\begin{minipage}{0.38\textwidth}
+\begin{minipage}{0.36\textwidth}
     \section*{Physical layer}
-    \textbf{Nyquist theorem}
+    \textbf{Nyquist theorem} | 
     A sampler operating at frequency $f_s$ can completely reconstruct a signal with bandwidth $B$ when
     $f_s > 2B$
     
     \vspace{0.5em}
 
-    \textbf{Nyquist bitrate}
+    \textbf{Nyquist bitrate} | 
     The theoretical maximum capacity of a noiseless channel with $M$ signal levels is $C = 2 B_c \log_2{M}$
     
-    \begin{tabular}{@{}p{31mm} p{40mm}@{}}
+    \begin{tabular}{@{}p{27mm} p{40mm}@{}}
         \textbf{Shannon's Law} & $\displaystyle C = B_c \log_2{\left(1+\frac{P_r}{N_0 B_c}\right)}$
     \end{tabular}
+    Tells the maximum data transmission rate $C$ over a channel in the presence of noise
 \end{minipage}
 
 \vspace{0.5em}\noindent\rule{\textwidth}{1.0pt}
@@ -111,7 +135,7 @@
     \end{minipage}
 
     \subsection*{Reliability in TCP/IP reference model}
-    $C$ - link capacity; $PLR$ - Packet loss ratio; $K$ - number of links between sender and receiver; assume all links have same $C$ and $PLR$.
+    $C$ -- link capacity; $PLR$ -- Packet loss ratio; $K$ -- number of links between sender and receiver; assume all links have same $C$ and $PLR$.
     \begin{center}
         \begin{tabular}{@{}p{24mm} | p{60mm}}
             \textbf{Strategy} & \textbf{Description} \\ \hline
@@ -135,11 +159,22 @@
 \end{center}
 
 \noindent
-\begin{minipage}[c]{0.640\textwidth}
+\begin{minipage}[c]{0.39\textwidth}
+    \begin{minipage}{35mm} \subsection*{Little's theorem} \end{minipage}
+    \begin{minipage}{40mm}
+        \begin{tabular}{@{}c c@{}}
+            $N = \lambda \cdot T$ &
+            $N_W = \lambda \cdot T_W$
+        \end{tabular}
+    \end{minipage}
+
+    The time a client waits on queue $T_W$ depends only on the \# of clients in queue $N_W$ and the client arrival rate $\lambda$, but not on the service rate (!).
+
     \subsection*{Delay modelled as queue networks}
 
     Poisson arrivals can be described by a Poisson distribution with $\expected[A]=1/\lambda$, $\variance[A]=1/\lambda^2$.
-
+\end{minipage}
+\begin{minipage}[c]{0.60\textwidth}
     \noindent
     \textbf{Kendall notation:} A/S/s/K (A -- arrival statistical process; S -- service statistical process; s -- number of servers; K -- capacity of the system in buffers)
 
@@ -150,17 +185,6 @@
         \item \textbf{D (Degenerate)} -- Fixed inter-arrival interval/service time;
         \item \textbf{G (General)} -- General process, arrival/service times are independent and identically distributed, with given parameters $\expected[X]=1/\lambda$, $\expected[X^2]$
     \end{itemize}
-\end{minipage}
-\begin{minipage}[c]{0.350\textwidth}
-    \subsection*{Little's theorem}
-    \vspace{-0.5em}
-    \begin{tabular}{@{}c c@{}}
-        $N = \lambda \cdot T$ &
-        $N_W = \lambda \cdot T_W$
-    \end{tabular}
-    \vspace{0.5em}
-
-    The time a client waits on queue $T_W$ depends only on the \# of clients in queue $N_W$ and the client arrival rate $\lambda$, but not on the service rate (!).
 \end{minipage}%
 
 \pagebreak
@@ -194,7 +218,7 @@
             \begin{minipage}{0.30\textwidth}
                 \vspace{-0.8em}
                 \begin{equation*}
-                    \rho \gg 1 \implies P(B) = \frac{\rho-1}{\rho} = \frac{\lambda - \mu}{\lambda}
+                    \rho \gg 1 \implies P(B) = \frac{\rho-1}{\rho} = \frac{\lambda-\mu}{\lambda}
                 \end{equation*}
             \end{minipage}
         } \\ \hline
