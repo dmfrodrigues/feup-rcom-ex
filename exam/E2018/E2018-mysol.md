@@ -154,6 +154,8 @@ espera (Nw). Indique, justificando, qual das duas soluções lhe parece ser a me
 
 #### Pergunta 3
 
+![](E2018-pt2-03.png)
+
 Considere que a uma empresa foi atribuído o bloco de endereços IP 20.20.20.192/26. A empresa tem um rede de comunicações com a arquitetura descrita na figura, composta por 4 routers (R1, R2, R3, R4) e 3 switches Ethernet. Um dos switches serve 12 computadores, outro serve 20 computadores e o terceiro interliga os routers R1, R2 e R3. Os routers R3 e R4 estão interligados por uma ligação ponto-a-ponto, à qual foi atribuído o endereço de rede 20.20.20.232/30.
 
 ##### Item (a)
