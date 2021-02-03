@@ -5,70 +5,44 @@
 \renewcommand\rightmark{
     Licensed under \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{CC BY-NC-ND 4.0 \vcenteredinclude{by-nc-nd-eu}}
 }
+
+\setlength{\columnsep}{0.5em}
+
 % Document
 \begin{document}
+\sisetup{range-phrase=-}
+\sisetup{range-units=single}
 
-% \noindent%\rule{\textwidth}{1.0pt}
-% \begin{minipage}{0.49\textwidth}
-%     \section*{Tips \& tricks}
-% \end{minipage}%
-% \begin{minipage}{0.49\textwidth}
-    
-% \end{minipage}
+\maketitle
 
-\begin{multicols}{2}
+\begin{minipage}{0.425\textwidth}
     \section*{Tips \& tricks}
     \begin{enumerate}
-        \setlength\itemsep{0em}
-        \item $P/\SI{}{\deci B} = P/\SI{}{\deci B \watt} = 10 \log_{10}{(P/\SI{}{\watt})}$
-        \item $P/\SI{}{\deci B \milli} = 10 \log_{10}{(P/\SI{}{\milli\watt})}$
+        \setlength\itemsep{-0.2em}
         \item Use a subnetwork tree to figure out which IP addresses have already been used.
         \item In redirect table problems, first create a redirect for all subnets, and then remove those entries that have gateway and interface equal to the default gateway.
-        \item Pay close attention to what the question is asking for: throughput (débito), useful throughput (débito útil/sem bits de verificação)
+        \item Pay attention to what the question is asking for: throughput (débito), useful throughput (without redundant bits)
     \end{enumerate}
-\end{multicols}
-
-\vspace{-1.5em}\noindent\rule{\textwidth}{1.0pt}\vspace{-0em}
-
-\noindent%\rule{\textwidth}{1.0pt}
-\begin{minipage}{0.64\textwidth}
-    \section*{Networks}
-    \begin{tabular}{@{}p{19mm} | p{21mm} | l | p{19mm}@{}}
-        \textbf{Inter-CPU distance} & \textbf{Processors in same} & \textbf{Type of network} & \textbf{Examples} \\ \hline
-        $\SI{    1}{     \meter}$ & Square meter & Personal Area Network (PAN)               & Bluetooth \\ \hline
-        $\SI{   10}{     \meter}$ & Room         & \multirow{3}{*}{Local Area Network (LAN)} & \multirow{3}{19mm}{Over switch network} \\ \cline{1-2}
+\end{minipage}
+\begin{minipage}{38em}
+    % \section*{Introduction to networks}
+    \begin{tabular}{@{}l | l | l | p{5.4em}@{}}
+        \textbf{Inter-CPU dist.} & \textbf{CPU in same} & \textbf{Type of network} & \textbf{Examples} \\ \hline
+        $\SI{    1}{     \meter}$ & Sqr. meter   & Personal Area Network (PAN)               & Bluetooth \\ \hline
+        $\SI{   10}{     \meter}$ & Room         & \multirow{3}{*}{Local Area Network (LAN)} & \multirow{3}{5.4em}{Over switch network} \\ \cline{1-2}
         $\SI{  100}{     \meter}$ & Building     &                                           & \\ \cline{1-2}
         $\SI{    1}{\kilo\meter}$ & Campus       &                                           & \\ \hline
-        $\SI{   10}{\kilo\meter}$ & City         & Metropolitan Area Network (PAN)           & Cable TV \\ \hline
-        $\SI{  100}{\kilo\meter}$ & Country      & \multirow{2}{*}{Wide Area Network (PAN)}  & \multirow{2}{*}{ISP network} \\ \cline{1-2}
+        $\SI{   10}{\kilo\meter}$ & City         & Metrop. Area Network (PAN)                & Cable TV \\ \hline
+        $\SI{  100}{\kilo\meter}$ & Country      & \multirow{2}{*}{Wide Area Network (PAN)}  & \multirow{2}{5.4em}{ISP network} \\ \cline{1-2}
         $\SI{ 1000}{\kilo\meter}$ & Continent    &                                           & \\ \hline
         $\SI{10000}{\kilo\meter}$ & Planet       & Internet                                  & \\
     \end{tabular}
-\end{minipage}%
-\begin{minipage}{0.36\textwidth}
-    \section*{Physical layer}
-    \textbf{Nyquist theorem} | 
-    A sampler operating at frequency $f_s$ can completely reconstruct a signal with bandwidth $B$ when
-    $f_s > 2B$
-    
-    \vspace{0.5em}
-
-    \textbf{Nyquist bitrate} | 
-    The theoretical maximum capacity of a noiseless channel with $M$ signal levels is $C = 2 B_c \log_2{M}$
-    
-    \begin{tabular}{@{}p{27mm} p{40mm}@{}}
-        \textbf{Shannon's Law} & $\displaystyle C = B_c \log_2{\left(1+\frac{P_r}{N_0 B_c}\right)}$
-    \end{tabular}
-    Tells the maximum data transmission rate $C$ over a channel in the presence of noise
 \end{minipage}
 
-\vspace{0.5em}\noindent\rule{\textwidth}{1.0pt}
-
-\noindent
-\begin{minipage}{0.052\textwidth}
-    \subsection*{OSI}
+\begin{minipage}{0.15\textwidth}
+    \subsection*{OSI model}
 \end{minipage}%
-\begin{minipage}{0.948\textwidth}
+\begin{minipage}{0.89\textwidth}
     \begin{tabular}{@{}p{9mm} | l | l | l | l | l@{}}
         \multicolumn{3}{c|}{\textbf{Layer}}                    & Data unit                & Function                                                        & Protocols          \\ \hline
         \multirow{4}{9mm}{Host layers}      & 7 & Application  & \multirow{3}{*}{Data}    & High-level APIs (resource sharing, remote file access)          &                    \\ \cline{2-3} \cline{5-6}
@@ -81,14 +55,103 @@
     \end{tabular}
 \end{minipage}%
 
-\vspace{-0em}\noindent\rule{\textwidth}{1.0pt}\vspace{0.5em}
+\vspace{0em}\rule{\textwidth}{1.0pt}\vspace{-0em}
 
-\noindent%\rule{\textwidth}{1.0pt}
-\begin{minipage}[c]{0.495\textwidth}
+\begin{minipage}[c]{0.46\textwidth}
+    \section*{Physical layer}
+
+    Each communication media has its own transference function $H(f)$ which impacts the original signal $S(f)$ according to $R(f)=H(f) S(f)$.
+
+    \paragraph{Nyquist theorem}
+    A sampler operating at frequency $f_s$ can completely reconstruct a signal with bandwidth $B$ when
+    $f_s > 2B$
+
+    \paragraph{Nyquist bitrate}
+    The theoretical maximum capacity of a noiseless channel with $M$ signal levels is $C = 2 B \log_2{M}$
+
+    \begin{tabular}{@{}p{4.1em} | p{23.6em}@{}}
+        \textbf{Transm.} & \textbf{Description} \\ \hline
+        Baseband & Signal has frequencies from $\SI{0}{\hertz}$ to $B$; wires \\ \hline
+        Passband & Signal uses a (usually small) band of frequencies $[f_1,f_2]$ around the carrier wave frequency $f_c$; wireless/optical
+    \end{tabular}
+
+    \subsection*{Baseband transmission codes}
+    \begin{tabular}{@{}p{3.6em} | p{19.4em}@{}}
+        \textbf{NRZ-L} & Non-return-to-Zero level: two levels for 0/1 \\ \hline
+        \textbf{NRZ-I} & Non-return-to-Zero inverted: lvl change = 1 \\ \hline
+        \textbf{Manch-ester} & Used in Ethernet; $+\rightarrow-$ is 1, $-\rightarrow+$ is 0
+    \end{tabular}
+
+    \paragraph{Clock recovery}
+    Bursts of same symbol may confuse the receiver. Manchester naturally solves it; other codings can use 4B/5B maps (4 bits are coded into 5 bits for transmission).
+
+\end{minipage}
+\begin{minipage}[c]{0.33\textwidth}
+    \subsection*{Modulations}
+    $s(t)$ -- Signal function to be transmitted
+
+    \begin{tabular}{@{}l | p{13.0em}@{}}
+        \textbf{Amplitude}  & $s(t) = A_i \cos{(2\pi f_c t)}$ \\ \hline
+        \textbf{Phase}      & $s(t) = A \cos{(\theta_i + 2\pi f_c t)}$ \\ \hline
+        \textbf{Quadrature} & $s(t) = A_i \cos{(\theta_i + 2\pi f_c t)}$; M-QAM (quadrature amplitude modulation), uses $M$ symbols
+    \end{tabular}
+
+    \paragraph{Shannon's Law}
+    The max data transmission rate $C$ over a channel in the presence of noise is
+    \begin{equation*}
+        C = B \log_2{\left(1+\frac{P_r}{N_0 B}\right)}
+    \end{equation*}
+
+    \subsection*{Guided transmission}
+    \begin{tabular}{@{}l | p{3.8em} | p{3.5em} | p{3.7em}@{}}
+        \textbf{Cable} & \textbf{B ($\SI{}{\giga\hertz}$)} & \textbf{Atten. ($\SI{}{\deci B / \kilo\meter}$)} & \textbf{Delay ($\SI{}{\micro\second / \kilo\meter}$)} \\ \hline
+        UTP            & $0.1-0.6        $ & $20-250$       & 5 \\
+        Coaxial        & $\approx 1      $ & $\approx 150$  & 4 \\
+        Fiber optics   & $\approx 30\,000$ & $< 1$          & 5 \\
+    \end{tabular}
+\end{minipage}
+\begin{minipage}[c]{0.20\textwidth}
+
+    \subsection*{Gain and attenuation}
+
+    \begin{itemize}
+        \setlength\itemsep{-0.2em}
+        \item $P/\SI{}{\deci B} = P/\SI{}{\deci B \watt} = 10 \log_{10}{(P/\SI{}{\watt})}$
+        \item $P/\SI{}{\deci B \milli} = 10 \log_{10}{(P/\SI{}{\milli\watt})}$
+        \item $Gain/\SI{}{\deci B} = -Attenuation/\SI{}{\deci B}$
+    \end{itemize}
+
+    \subsection*{Wireless transmission}
+    VLF (very low frequency), LF, MF follow Earth's curvature, HF bounce off the ionosphere.
+
+    \paragraph{Free space loss}
+    Two ideal isotropic antennas distanced $d$,
+    \begin{equation*}
+        \frac{P_t}{P_r} = \frac{(4\pi d)^2}{\lambda ^2} = \frac{(4\pi f d)^2}{c^2}
+    \end{equation*}
+\end{minipage}
+
+\vspace{-0em}\rule{\textwidth}{1.0pt}
+
+\begin{minipage}[c]{0.41\textwidth}
     \section*{Data link layer}
+
+    \paragraph{Byte stuffing}
+    An escape character is chosen, and flags/escape chars are encoded to avoid ambiguity.
+
+    \subsection*{Error detection}
+    \paragraph{Parity check}
+    One parity bit is added every $k$ bits; simple but does not detect even number of errors.
+
+    \paragraph{Bidimensional parity}
+    Any 4 errors in rectangular configuration are undetectable.
+
+    \paragraph{Cyclic Redundancy Check (CRC)}
+    given encoding parameters $r \in \mathbb{N}$ and $G$ a number with $r+1$ bits, encodes message $M$ by adding the remainer $R$  of $M \times 10^{r}$ divided by $G$ (where $M \times x^r \equiv A\times G + R \pmod{2}$ if everything is interpreted as a polynomial) to the end of $M$ ($R$ always has $r$ bits).
+
+
     \subsection*{Automatic Repeat Request (ARQ)}
-    % \subsubsection*{Stop\&Wait}
-    \textbf{Stop\&Wait} |
+    \paragraph{Stop\&Wait}
     Each received frame must be ACK, sender only sends next frame if all previous frames were acknowledged.
     \begin{center}
         \begin{tabular}{c c}
@@ -97,176 +160,236 @@
             \multicolumn{2}{c}{$\displaystyle S            = \frac{T_f}{E[A](T_f+2T_{prop})} = \frac{1}{E[A](1+2a)} = \frac{1-p_e}{1+2a}$}
         \end{tabular}
     \end{center}
-    % \subsubsection*{Go Back N}
-    \textbf{Go Back N} |
-    Allows transmission before previous frames were ACK. It sends ACK(NR) meaning it acknowledges all packets with $index < NR$.
-    If an out-of-sequence frame is received, REJ is sent with the expected frame number.
-
-    \noindent
-    \begin{minipage}[c]{28mm}
-        $W = M-1$ \\ $= 2^k-1$
-    \end{minipage}%
-    \begin{minipage}[c]{71mm}
-        \begin{equation*}
-            S = \begin{dcases}
-                \frac{1-p_e}{1+2ap_e}               & : W \geq 1+2a \\
-                \frac{W(1-p_e)}{(1+2a)(1-p_e+Wp_e)} & : W < 1+2a
-            \end{dcases}
-        \end{equation*}
-    \end{minipage}
 \end{minipage}
-\begin{minipage}[c]{0.495\textwidth}
-    % \subsubsection*{Selective Repeat}
-    \textbf{Selective Repeat} |
-    Similar to Go Back N, but receiver accepts out-of-sequence frames and notifies the sender to send missing frames only.
-
-    \begin{minipage}{60mm}
-        \begin{equation*}
+\begin{minipage}[c]{0.58\textwidth}
+    \begin{minipage}[t]{0.60\linewidth}
+        \paragraph{Go Back N}
+        Allows transmission before previous frames were ACK. It sends ACK(NR) meaning it acknowledges all packets with $index < NR$.
+        If an out-of-sequence frame is received, REJ is sent with the expected frame number.
+        \begin{gather*}
+            W = M-1 = 2^k-1 \\
+            S = \begin{dcases}
+                    \frac{1-p_e}{1+2ap_e}               & : W \geq 1+2a \\
+                    \frac{W(1-p_e)}{(1+2a)(1-p_e+Wp_e)} & : W < 1+2a
+                \end{dcases}
+        \end{gather*}
+    \end{minipage}~
+    \begin{minipage}[t]{0.38\linewidth}
+        \paragraph{Selective Repeat}
+        Similar to Go Back N, but receiver accepts out-of-sequence frames and notifies the sender to send missing frames only.
+        \begin{gather*}
+            W = M/2 = 2^{k-1} \\
             S = \begin{dcases}
                 1-p_e                 & : W \geq 1+2a \\
                 \frac{W(1-p_e)}{1+2a} & : W < 1+2a
             \end{dcases}
-        \end{equation*}
-    \end{minipage}
-    \begin{minipage}{30mm}
-        \begin{equation*}
-            W = M/2 = 2^{k-1}
-        \end{equation*}
+        \end{gather*}
     \end{minipage}
 
     \subsection*{Reliability in TCP/IP reference model}
-    $C$ -- link capacity; $PLR$ -- Packet loss ratio; $K$ -- number of links between sender and receiver; assume all links have same $C$ and $PLR$.
+    
+
+    $PLR$ -- Packet loss ratio; $K$ -- number of links between sender and receiver; assume all links have same $C$ and $PLR$.
     \begin{center}
-        \begin{tabular}{@{}p{24mm} | p{60mm}}
+        \begin{tabular}{@{}p{24mm} | l@{}}
             \textbf{Strategy} & \textbf{Description} \\ \hline
-            Link-by-Link & \multirow{4}{60mm}{On error, the station closest to the sender notifies it. Repairs losses link by link. More complex, but better on very unreliable media.} \\ $S=1-PLR$ \\ \\ \\
-            End-to-End   & \multirow{3}{60mm}{On error, the receiver notifies the sender. Less complex, but not acceptable on very unreliable media.} \\ $S=(1-PLR)^k$ \\ \\
+            Link-by-Link & \multirow{3}{24.0em}{On error, the station closest to the sender notifies it. Repairs losses link by link. More complex, but better on very unreliable media.} \\
+            $S=1-PLR$ \\
+            \\
+            End-to-End   & \multirow{2}{24.0em}{On error, the receiver notifies the sender. Less complex, but not acceptable on very unreliable media.} \\
+            $S=(1-PLR)^K$ \\
         \end{tabular}
     \end{center}
+
+    TCP/IP assumes Data Link layer provides error-free packets with possible packet loss (but very low FER).
+    End-to-End is used in most cases, implemented in Transport or Application;
+    in lossy channels (e.g. wireless) link-by-link is implemented in Data Link. 
 \end{minipage}
 
-\vspace{-0em}\noindent\rule{\textwidth}{1.0pt}\vspace{-2em}
+\vspace{-0em}\rule{\textwidth}{1.0pt}\vspace{-0em}
 
-\section*{Delay models}
-% \subsection*{Multiplexing}
-\begin{center}
-    \begin{tabular}{@{}l | p{139mm} | l@{}}
-        \textbf{Multiplexing strategies}        & \textbf{Description}                                                                      & $T_{frame}$ \\ \hline
-        Statistical              & Transmitted on first-come first-served basis                                              & $L/C$       \\
-        Frequency division (FDM) & Link capacity $C$ divided into $m$ channels, each with bandwidth $W/m$ and capacity $C/m$ & $Lm/C$      \\
-        Time division (TDM)      & Link capacity $C$ divided into $m$ channels in the time axis, each with capacity $C/m$    & $Lm/C$      \\
-    \end{tabular}
-\end{center}
-
-\noindent
-\begin{minipage}[c]{0.39\textwidth}
-    \begin{minipage}{35mm} \subsection*{Little's theorem} \end{minipage}
-    \begin{minipage}{40mm}
-        \begin{tabular}{@{}c c@{}}
-            $N = \lambda \cdot T$ &
-            $N_W = \lambda \cdot T_W$
-        \end{tabular}
-    \end{minipage}
-
-    The time a client waits on queue $T_W$ depends only on the \# of clients in queue $N_W$ and the client arrival rate $\lambda$, but not on the service rate (!).
-
-    \subsection*{Delay modelled as queue networks}
-
-    Poisson arrivals can be described by a Poisson distribution with $\expected[A]=1/\lambda$, $\variance[A]=1/\lambda^2$.
-\end{minipage}
-\begin{minipage}[c]{0.60\textwidth}
-    \noindent
-    \textbf{Kendall notation:} A/S/s/K (A -- arrival statistical process; S -- service statistical process; s -- number of servers; K -- capacity of the system in buffers)
-
-    \noindent
-    \begin{itemize}
-        \setlength\itemsep{0em}
-        \item \textbf{M (Markovian)} -- Poisson process/exponential service time;
-        \item \textbf{D (Degenerate)} -- Fixed inter-arrival interval/service time;
-        \item \textbf{G (General)} -- General process, arrival/service times are independent and identically distributed, with given parameters $\expected[X]=1/\lambda$, $\expected[X^2]$
-    \end{itemize}
-\end{minipage}%
-
-\pagebreak
-
-\noindent
 \begin{minipage}{0.1\textwidth}
-    \subsection*{Queues}
+    \section*{Delay models}
 \end{minipage}%
 \begin{minipage}{0.9\textwidth}
-    $P(n)$ -- Probability of Markov chain being in state $n$.
-    $N = N_W + N_S$.
-    $T = T_W + T_S$.
+    \begin{tabular}{@{}l | l | l@{}}
+        \textbf{Multiplex strategies}        & \textbf{Description}                                                                      & $T_{frame}$ \\ \hline
+        Statistical              & Transmitted on first-come first-served basis                                              & $L/C$       \\ \hline
+        Freq. division (FDM) & Link capacity $C$ divided into $m$ channels, each with bandwidth $W/m$ and capacity $C/m$ & $Lm/C$      \\ \hline
+        Time division (TDM)      & Link capacity $C$ divided into $m$ channels in the time axis, each with capacity $C/m$    & $Lm/C$      \\
+    \end{tabular}
 \end{minipage}
 
-\begin{center}
+\begin{minipage}{5.5em} \subsection*{Little's theorem} \end{minipage}
+\begin{minipage}{7.0em}
+    $N = \lambda \cdot T$ \\
+    $N_W = \lambda \cdot T_W$
+\end{minipage}
+\begin{minipage}{48.5em}
+    The time a client waits on queue $T_W$ depends only on the \# of clients in queue $N_W$ and client arrival rate $\lambda$, but not on the service rate (!).
+\end{minipage}
+
+\begin{minipage}{0.289\textwidth}
+    \subsection*{Delay modelled as queue networks}
+    Poisson arrivals can be described by a Poisson distribution with $\expected[A]=1/\lambda$, $\variance[A]=1/\lambda^2$.
+
+    \textbf{Kendall notation:} A/S/s/K (A -- arrival stat. process; S -- service stat. proc.; s -- number of servers; K -- system buffer capacity
+
+    \paragraph{Queues}
+    $P(n)$ -- Prob. of Markov chain being in state $n$.
+    $N = N_W + N_S$.
+    $T = T_W + T_S$.
+
+    Element being transmitted is the first in queue; queue is popped when that element is fully transmitted, meaning max queue time in M/M/1/B is $T_S (B-1)$.
+
+\end{minipage}
+\begin{minipage}{0.707\textwidth}
     \begin{tabular}{@{}l || c | c | c | c | c @{}}
-        M/M/1   & $\displaystyle P(n) = \rho^n(1-\rho)$   & $\displaystyle N=\frac{\rho}{1-\rho}$ & $\displaystyle T=\frac{N}{\lambda} = \frac{1}{\mu-\lambda}$ & $\displaystyle T_W = T-T_S = \frac{\rho}{\mu(1-\rho)}$ & $\displaystyle N_W = T_W \lambda = N-\rho$ \\ \hline
-        D/D/1   &                                         & $\displaystyle N=\rho$                & $\displaystyle T=1/\mu$                                     & $\displaystyle T_W = 0$                                & $\displaystyle N_W = 0$                    \\ \hline
-        M/M/1/B & \multicolumn{5}{c}{
-            \begin{minipage}{0.15\textwidth}
+        \textbf{M/M/1}   & $\displaystyle P(n) = \rho^n(1-\rho)$   & $\displaystyle N=\frac{\rho}{1-\rho}$ & $\displaystyle T= \frac{1}{\mu-\lambda}$ & $\displaystyle T_W = \frac{\rho}{\mu(1-\rho)}$ & $\displaystyle N_W = N-\rho$ \\ \hline
+        \textbf{D/D/1}   &                                         & $\displaystyle N=\rho$                & $\displaystyle T=1/\mu$                  & $\displaystyle T_W = 0$                        & $\displaystyle N_W = 0$      \\ \hline
+        \textbf{M/M/1/B} & \multicolumn{5}{c}{
+            \begin{minipage}{8em}
                 \vspace{-0.8em}
                 \begin{alignat*}{2}
                     P(0) = \frac{1-\rho}{1-\rho^{B+1}} \\
                     P(n) = \rho^n\cdot P(0)
                 \end{alignat*}
             \end{minipage}
-            \begin{minipage}{0.35\textwidth}
+            \begin{minipage}{12em}
                 \vspace{-0.8em}
                 \begin{equation*}
                     \rho = 1 \implies P(B) = \frac{1}{B+1}
                 \end{equation*}
             \end{minipage}
-            \begin{minipage}{0.30\textwidth}
+            \begin{minipage}{16em}
                 \vspace{-0.8em}
                 \begin{equation*}
                     \rho \gg 1 \implies P(B) = \frac{\rho-1}{\rho} = \frac{\lambda-\mu}{\lambda}
                 \end{equation*}
             \end{minipage}
         } \\ \hline
-        M/G/1   &                                         & $\displaystyle N=N_W + \rho$                & $\displaystyle T=T_W+1/\mu$                             & $\displaystyle T_W = \frac{\lambda \expected[X^2]}{2(1-\rho)}$                    & $\displaystyle N_W = \lambda T_W$                 \\ \hline
-        M/D/1   & $\expected[X]=1/\mu$, $\expected[X^2]=1/\mu^2$ & $\displaystyle N=N_W + \rho$                & $\displaystyle T=T_W+1/\mu$                             & $\displaystyle T_W = \frac{\rho}{2 \mu (1-\rho)}$                    & $\displaystyle N_W = \frac{\rho^2}{2 (1-\rho)}$                 \\
+        \textbf{M/G/1}   &                                         & $\displaystyle N=N_W + \rho$                & $\displaystyle T=T_W+1/\mu$                             & $\displaystyle T_W = \frac{\lambda \expected[X^2]}{2(1-\rho)}$                    & $\displaystyle N_W = \lambda T_W$                 \\ \hline
+        \textbf{M/D/1}   & \begin{minipage}{6.1em}$\expected[X]=1/\mu$\\$\expected[X^2]=1/\mu^2$\end{minipage} & $\displaystyle N=N_W + \rho$                & $\displaystyle T=T_W+1/\mu$                             & $\displaystyle T_W = \frac{\rho}{2 \mu (1-\rho)}$                    & $\displaystyle N_W = \frac{\rho^2}{2 (1-\rho)}$                 \\
     \end{tabular}
-\end{center}
+    \begin{minipage}[t]{0.557\linewidth}
+        \textbf{M (Markovian)} -- Poisson process/exponential service time; \\
+        \textbf{D (Degenerate)} -- Fixed inter-arrival interval/service time;
+    \end{minipage}
+    \begin{minipage}[t]{0.433\linewidth}
+        \textbf{G (General)} -- General process, arrival/service times independent \& identically distributed, with given parameters $\expected[X]=1/\lambda$, $\expected[X^2]$
+    \end{minipage}%
+\end{minipage}
 
-\vspace{-0.5em}\noindent\rule{\textwidth}{1.0pt}\vspace{-1.5em}
+\begin{multicols}{2}
+    \subsubsection*{Kleinroch independence approximation}
+    Each link is a queue. Several streams merging on a link restore independence of interarrival times and packet lengths. Thus each link is M/M/1 if entry points have Poisson arrivals, packet lengths are nearly exponentially distributed, network is dense and has moderate/heavy traffic.
 
-\section*{MAC sublayer -- Random Access Protocols}
-\begin{center}
-    \begin{tabular}{@{}p{21mm} | p{85mm} | p{30mm} | p{46mm}@{}}
-        \textbf{Prot.} & \textbf{Description}                                                                                                                           & \textbf{Efficiency}                      & \textbf{Max. efficiency}                                                             \\ \hline
-        ALOHA          & Sends packet to the networks, waits for a round-trip time, and if no ACK arrived then delay the packet sending by a random time to 'try later' & Pure: $S=Ge^{-2G}$; Slotted: $S=Ge^{-G}$ & Pure: $S_{max}=1/2e=\SI{18.4}{\percent}$; Slotted: $S_{max}=1/e=\SI{36.8}{\percent}$ \\
-        CSMA           & \multicolumn{3}{p{170mm}}{Carrier Sense Multiple Access, first listens if there is traffic, only transmits if the channel is sensed free            } \\
-        CSMA Pers.     & \multicolumn{3}{p{170mm}}{If busy, waits until medium becomes free and then transmits (persistent)                                                  } \\
-        CSMA NonP.     & \multicolumn{3}{p{170mm}}{If busy, waits a random time and repeats (non-persistent)                                                                 } \\
-        CSMA p-Pe.     & \multicolumn{3}{p{170mm}}{If free, transmits with probability $p$, or defers transmission to next slot with probability $1-p$                       } \\
-        CSMA/CD        & \multicolumn{3}{p{170mm}}{Collision detection; similar to CSMA Persistent but if a collision is detected \textbf{during} transmission, it is aborted and retransmission is delayed using a Binary Exponential Backoff algorithm (if there were $i$ consecutive collisions, transmit in a random slot picked from slot set $[0, 2^i-1]$). Does not use ACKs. Slots have size $T_{slot}=2T_{prop}$. $\lim_{N \rightarrow\infty}{S}=1/(1+3.44a)$.} \\
-        CSMA/CA        & \multicolumn{3}{p{170mm}}{Waits some DIFS time to check if no-one is transmitting, and then transmits; if someone is transmitting, then the current station waits DIFS plus a random backoff and tries again} \\
+    Given each path $p$ on the network has a known arrival rate $x_p$, the arrival rate for link $i \leftrightarrow j$ is $\lambda_{ij} = \sum_{p : (i,j) \in p}{x_p}$; $\mu_{ij}$ is a known property of the link; all other things are obtained with M/M/1 equations. The total number $N$ of packets in the system is the sum of all $N_{ij}$, $\lambda = \sum{x_p}$ and $T$ is obtained from Little's theorem.
+
+    \subsubsection*{Jackson networks}
+    Now queues are not links, but nodes. Arrivals and services are Poisson, system is stable and has no cloggings ($\rho_j < 1$). For each node $j$ in a network with $K$ nodes, there are $r_j$ packets per second entering the system through $j$, and packets from other nodes; on leaving $j$, packets have prob $P_{ji}$ of going to $i$, and $1-\sum_{i=1}^{K}{P_{ji}}$ to leave system. Implies $\lambda_j = r_j + \sum_{i=1}^{K}{\lambda_i P_{ij}}$.
+
+    \paragraph{Jackson's theorem} Let $\vec{n} = (n_1, n_2, ..., n_k)$ be a possible state; then $P(\vec{n}) = \prod_{j=1}^{K}{P_j(n_j)}$. Thus, all queues are independent; grab the Markov chain probs for M/M/1 queues, and we get $P(\vec{n}) = \prod_{j=1}^{K}{\rho_j^{n_j}(1-\rho_j)}$.
+
+\end{multicols}
+
+\vspace{-1.5em}\rule{\textwidth}{1.0pt}\vspace{-1.0em}
+
+\begin{multicols}{3}
+    \section*{MAC sublayer}
+    \subsection*{Random Access Protocols}
+    \paragraph{Aloha     }
+    Sends packet to the networks, waits for a round-trip time, and if no ACK arrived then delay the packet sending by a random time to 'try later'. Pure: $S=Ge^{-2G}$, $S_{max}=1/2e=\SI{18.4}{\percent}$; Slotted: $S=Ge^{-G}$, $S_{max}=1/e=\SI{36.8}{\percent}$.
+
+    \paragraph{CSMA      }
+    Carrier Sense Multiple Access, first listens if there is traffic, only transmits if the channel is sensed free.
+
+    \paragraph{CSMA Pers.}
+    If busy, waits until medium becomes free and then transmits (persistent).
+
+    \paragraph{CSMA NonP.}
+    If busy, waits a random time and repeats (non-persistent).
+
+    \paragraph{CSMA p-Pe.}
+    If free, transmits with probability $p$, or defers transmission to next slot with probability $1-p$.
+
+    \paragraph{CSMA/CD   }
+    Collision detection; similar to CSMA Persistent but if a collision is detected \textbf{during} transmission, it is aborted and retransmission is delayed using a Binary Exponential Backoff algorithm (if there were $i$ consecutive collisions, transmit in a random slot picked from slot set $[0, 2^i-1]$). Does not use ACKs. Slots have size $T_{slot}=2T_{prop}$. $\displaystyle \lim_{N \rightarrow\infty}{S}=1/(1+3.44a)$.
+
+    \paragraph{CSMA/CA} 
+    Waits some DIFS time to check if no-one is transmitting, and then transmits; if someone is transmitting, then the current station waits DIFS plus a random backoff and tries again.
+
+    \subsection*{Taking turns}
+    The switch polls stations and decides which station gets to transmit first; or stations pass around tokens sequentially.
+
+    \subsection*{Switches}
+    Data Link device, forwards Ethernet frames, is transparent to hosts (hosts are unaware of the switch presence, as if hosts were directly connected). It has a forwarding table and is self-learning: when it receives a frame, it matches the incoming frame MAC address to the switch interface the frame arrived to. This differs from ARP, as ARP matches IP to MAC.
+\end{multicols}
+
+\vspace{-1.5em}\rule{\textwidth}{1.0pt}\vspace{-1.0em}
+
+\begin{multicols}{3}
+    \section*{Network layer}
+    Provides two services: datagram network (connectionless service), and virtual circuit (connection-oriented, router maintains states, has forwarding tables).
+
+    \begin{tabular}{@{}l | l@{}}
+        \textbf{Description} & \textbf{Special IP address} \\ \hline
+        This host                 & \texttt{0.0.0.0} \\
+        Broadcast local network   & \texttt{255.255.255.255} \\
+        Broadcast distant network & \texttt{<network>1111...} \\
+        Loopback                  & \texttt{127.<anything>}
     \end{tabular}
-\end{center}
 
-\vspace{-0.5em}\noindent\rule{\textwidth}{1.0pt}\vspace{-0.0em}
+    \paragraph{Internet Protocol (IP)}
+    Can segment large packets, tho TCP already segments packets so IP only segments oversized UDP/ICMP datagrams.
 
-\noindent
-\begin{minipage}[c]{0.60\textwidth}
-    % \section*{Network}
+    \paragraph{Address Resolution Protocol (ARP)}
+    IP to MAC (can also get IP from MAC). When not on ARP table, device broadcasts ARP request; only device with that IP answers with corresponding MAC.
 
-    \section*{Transport}
-    \begin{tabular}{@{}l | p{82mm} | p{20mm}@{}}
-        \textbf{Pr.} & \textbf{Description} & \textbf{Used by} \\ \hline \hline
-        UDP & Unreliable, connectionless, direct interface to IP with minimal protocol overhead & DNS, SNMP, DHCP\\ \hline
-        TCP & Reliable (uses ARQ mechanism), connection-oriented, full-duplex, avoids receiver/network congestion & FTP, HTML
-    \end{tabular}
+    \paragraph{Dynamic Host Configuration Protocol (DHCP)}
+    Dynamically get IP address from a server, allowing IP address reuse. Client broadcasts \texttt{DISCOVER} to find all DHCP servers; all DHCP servers \texttt{OFFER} an IP each; client accepts one of the offers by \texttt{REQUEST}'ing the offered IP from one of the DHCP servers; server \texttt{ACK}s.
 
-    \textbf{TCP} uses a system similar to \textbf{Go Back N}, except when both ends support selective acknowledgement (SACK), in which case a variation of Selective Repeat is used. Connection is established using \textbf{three-way handshake} (SYN, SYN/ACK, ACK). Data is interpreted as a \textbf{byte stream}, and packets are numbered by the sequence number of the first byte of data the packet carries. TCP connection is \textbf{full-duplex}, and each direction has different sequence numbers.
+    \paragraph{Network Address Translation (NAT)}
+    Separates private network from public network. Requests are rewritten to bear the NAT public address if going outside, or the dereferenced private address if going inside.
 
-    \subsection*{Retransmissions}
+    \paragraph{Internet Control Message Protocol (ICMP)}
+    Used for error/control messages. Used e.g. by \texttt{ping}
 
-    \textbf{Adaptative ret.} | 
-    $\text{RTT}=a \cdot \text{RTT} + (1-a) \text{RTT}_{\text{sample}}$, $\text{Timeout}=2\text{RTT}$
+    \paragraph{IPv6}
+    $\SI{128}{\bit}$ addresses.
+    \textbf{Link-local:} used for comms in same LAN/link, not forwarded by routers.
+    \textbf{Global unicast:} global address.
+    \textbf{Anycast:} packet is received by any (only 1) member of group.
+    \textbf{Multicast:} packet received by all group members.
+    \textbf{Neighbor Discovery protocol (ND):} replaces ARP IPv4, ICMP router discovery, ICMP redirect.
+\end{multicols}
 
-    \textbf{Karn-Partridge alg.} | 
-    RTT not updated on retransmissions, only updated with unambiguous ack's (ack's for segments that were only sent once). If there is a sharp increase in RTT, a new method is used: if a timeout occurs and causes a retransmission, timeout is doubled.
+\vspace{-1.5em}\rule{\textwidth}{1.0pt}\vspace{-0.0em}
+
+\begin{minipage}[c]{0.603\textwidth}
+
+    \begin{minipage}{0.14\linewidth}
+        \section*{Trans-port}
+    \end{minipage}%
+    \begin{minipage}{0.86\linewidth}
+        \begin{tabular}{@{}l | p{23.2em} | p{5.7em}@{}}
+            \textbf{Pr.} & \textbf{Description} & \textbf{Used by} \\ \hline \hline
+            UDP & Unreliable, connectionless, direct interface to IP with minimal protocol overhead & DNS, SNMP, DHCP\\ \hline
+            TCP & Reliable (uses ARQ mechanism), connection-oriented, full-duplex, avoids receiver/network congestion & FTP, HTML
+        \end{tabular}
+    \end{minipage}
+    \vspace{-1.5em}
+    \begin{multicols}{2}
+        \textbf{TCP} uses a system similar to \textbf{Go Back N}, except when both ends support selective acknowledgement (SACK), in which case a variation of Selective Repeat is used. Connection is established using \textbf{three-way handshake} (SYN, SYN/ACK, ACK). Data is interpreted as a \textbf{byte stream}, and packets are numbered by the sequence number of the first byte of data the packet carries. TCP connection is \textbf{full-duplex}, and each direction has different sequence numbers.
+
+        \subsection*{Retransmissions}
+
+        \paragraph{Adaptative ret.}
+        $\text{RTT}=a \cdot \text{RTT} + (1-a) \text{RTT}_{\text{sample}}$, $\text{Timeout}=2\text{RTT}$
+
+        \paragraph{Karn-Partridge alg.}
+        RTT not updated on retransmissions, only updated with unambiguous ack's (ack's for segments that were only sent once). If there is a sharp increase in RTT, a new method is used: if a timeout occurs and causes a retransmission, timeout is doubled.
+    \end{multicols}
 \end{minipage}
 \begin{minipage}[c]{0.39\textwidth}
     This avoids the possibility that TCP does not update RTT because there are only retransmissions, and as such would block into a very small RTT.
@@ -276,50 +399,77 @@
     The receiver regularly broadcasts its receiver window \texttt{RWND}.
     Congestion window \texttt{CWND} is only kept/updated by the sender, and is used to implement congestion control (maximize efficiency, fairly distribute bandwidth).
 
-    \textbf{Additive Increase/Multiplicative Decrease} |
-    For each RTT, increment \texttt{CWND}; on timeout, divide \texttt{CWND} by 2. \textbf{Sawtooth behavior}.
+    \paragraph{Additive Increase/Multiplicative Decrease}
+    For each RTT, increment \texttt{CWND}; on timeout, divide \texttt{CWND} by 2. Sawtooth behavior.
 
-    \textbf{Slow Start} | 
-    Start with small \texttt{CWND}, and double it for each RTT; when segment is lost (detected by timeout), a threshold is defined at half \texttt{CWND}, then \texttt{CWND} is reset, increases exponentially until it reaches threshold, and then increases linearly (\textbf{congestion avoidance} phase)
+    \paragraph{Slow Start}
+    Start with small \texttt{CWND}, and double it for each RTT; when segment is lost (detected by timeout), a threshold is defined at half \texttt{CWND}, then \texttt{CWND} is reset, increases exponentially until it reaches threshold, and then increases linearly (congestion avoidance phase)
 \end{minipage}
 
-\noindent\rule{\textwidth}{1.0pt}\vspace{-0em}
+\vspace{-0em}\rule{\textwidth}{1.0pt}\vspace{-1.0em}
+
+\begin{multicols}{3}
+
+    \section*{Routing}
+    Forwarding is to just use a forwarding table, and redirect a request to a certain node;
+    routing is about computing the whole path of a request, and send it to the best node possible.
+
+    \paragraph{Shortest-path routing}
+    Destination-based, load-insensitive, uses minimum \# of hops or sum of link weights.
+
+    \paragraph{Detecting topology changes} Usually a periodic \texttt{hello} message is used in both directions.
+
+    \subsection*{Link-state routing}
+    Station $u$ broadcasts a list of its links (the LSA -- link-state advertisement) to its neighbors. When a receiving station gets a more recent version of $u$'s LSA it re-broadcasts to its neighbors; thus the network is flooded with $u$'s LSA. When all stations know all links, each performs Dijkstra to create the routing table.
+
+    \subsection*{Distance vector}
+    Station $u$ keeps a table of least distance to all nodes $v$ and the link that should be used, $D(u,v), \forall v$. $u$ periodically informs its neighbors of its distance information $D(u,v), \forall v$; and each of its neighbors $v$ update their own distance vectors $D(v,w)$ by checking if passing through $u$ to reach $w$ is better (i.e., if $D(v,u)+D(u,w) < D(v,w)$). Initially all distances are assumed infinite (except each station's neighbors), and the distance vector will eventually converge. Distributed version of Bellman-Ford, it is iterative and asynchronous (triggered by receiving distance vector).
+
+    \paragraph{Routing Information Protocol (RIP)}
+    Distance vectors sent every $\SI{30}{\second}$ or when link cost changes. Does not scale well to large networks.
+
+    \paragraph{Border Gateway Protocol (BGP)}
+    Also known as Exterior Gateway Routing Protocol (eBGP), usually for high-level networks in hierarchy (e.g. inside an ISP, or between ISPs).
+
+    \subsection*{Ethernet}
+    Requires the network to be modelled as a tree, otherwise frames could loop forever. Uses a minimum spanning tree algorithm to build said tree.
+
+    \subsection*{Flow network model}
+    Networks are can be modelled as a flow network; packet networks are queue networks, as such this approach can only be used to estimate maximum data flow from one station to another.
+
+\end{multicols}
+
+\vspace{-1.5em}\rule{\textwidth}{1.0pt}\vspace{-0.5em}
 
 \begin{center}
-    \noindent%\rule{\textwidth}{1.0pt}
-    \begin{minipage}{0.49\textwidth}
+    \begin{minipage}{0.55\textwidth}
         \section*{Variables}
-        \begin{tabular}{@{}l l | p{59mm}@{}}
-            $C$           & $[\SI{}{\bit/\second}     ]$ & Max. theoretical capacity of a channel                      \\
-            $B_c$         & $[\SI{}{\hertz}           ]$ & Channel bandwidth                                           \\
-            $P_r$         & $[\SI{}{\watt}            ]$ & Signal power as seen by the receiver                        \\
-            $N_0 B_c$     & $[\SI{}{\watt}            ]$ & Noise power as seen by the receiver                         \\
-            $N_0$         & $[\SI{}{\watt/\hertz}     ]$ & Spectral density of white noise power                       \\
-            $P_r/N_0 B_c$ & $[1                       ]$ & Signal to noise ratio (SNR)                                 \\
-            $T_{prop}$    & $[\SI{}{\second}          ]$ & Propagation time from send. to rec.                         \\
-            $T_f$         & $[\SI{}{\second}          ]$ & Time to transfer a frame                                    \\
-            $a$           & $[1                       ]$ & Ratio of $T_{prop}$ to $T_f$                                \\
-            $p_e$         & $[1                       ]$ & Frame error probability                                     \\
-            $P[A=k]$      & $[1                       ]$ & Prob. of frame requiring $k$ attempts                       \\
-            $E[A]$        & $[1                       ]$ & Expected number of attempts                                 \\
+        \begin{tabular}{@{}l l | l@{}}
+            $C$        & $[\SI{}{\bit/\second}  ]$ & Max. theoretical channel capacity                                        \\
+            $B$        & $[\SI{}{\hertz}        ]$ & Channel bandwidth                                                        \\
+            $f_s$      & $[\SI{}{symbol/\second}]$, $[\SI{}{baud}             ]$ & Sampler frequency; baudrate ($f_s=2 B$)    \\
+            $P_r$      & $[\SI{}{\watt}         ]$ & Signal power seen by receiver                                            \\
+            $N_0$      & $[\SI{}{\watt/\hertz}  ]$ & Spectral density of white noise power                                    \\
+            $\lambda$  & $[\SI{}{pac /\second  }]$, $[\SI{}{\bit/\second     }]$ & Client arrival rate                        \\
+            $\mu$      & $[\SI{}{pac /\second  }]$, $[\SI{}{\bit/\second     }]$ & Service rate                               \\
+            $\rho$     & $[1                    ]$ & Traffic intensity; $\rho = \lambda/\mu$                                  \\
+            $T_{prop}$ & $[\SI{}{\second}       ]$ & Propagation time from send. to rec.                                      \\
+            $T_f$      & $[\SI{}{\second}       ]$ & Time to transfer a frame                                                 \\
         \end{tabular}
     \end{minipage}
-    \begin{minipage}{0.49\textwidth}
-        \begin{tabular}{l l | p{59mm}}
-            $S$           & $[1                       ]$ & Efficiency                                                  \\
-            $W$           & $[1                       ]$ & Maximum window size                                         \\
-            $M$           & $[1                       ]$ & Modulo of sequence numbers                                  \\
-            $N$           & $[1                       ]$ & Average \# of clients in the system                         \\
-            $N_W$         & $[1                       ]$ & \# of clients waiting on queue                              \\
-            $N_S$         & $[1                       ]$ & \# of clients being served                                  \\
-            $T$           & $[\SI{}{\second}          ]$ & Average delay experienced by a client                       \\
-            $T_W$         & $[\SI{}{\second}          ]$ & Time a client waits on queue                                \\
-            $T_S$         & $[\SI{}{\second}          ]$ & Service time                                                \\
-            $\lambda$     & $[\SI{}{     \second^{-1}}]$ & Arrival rate of clients                                     \\
-                          & $[\SI{}{\bit/\second^{-1}}]$ &                                                             \\
-            $\mu$         & $[\SI{}{     \second^{-1}}]$ & Service rate                                                \\
-                          & $[\SI{}{\bit/\second^{-1}}]$ &                                                             \\
-            $\rho$        & $[1                       ]$ & Traffic intensity; $\rho = \lambda/\mu$                     \\
+    \begin{minipage}{0.44\textwidth}
+        \begin{tabular}{@{}l l | l@{}}
+            $P[A=k]$   & $[1                    ]$ & Prob. of frame requiring $k$ attempts                                    \\
+            $E[A]$     & $[1                    ]$ & Expected \# of attempts                                                  \\
+            $a$        & $[1                    ]$ & Ratio of $T_{prop}$ to $T_f$                                             \\
+            $p_e$      & $[1                    ]$ & Frame error probability                                                  \\
+            $S$        & $[1                    ]$ & Efficiency                                                               \\
+            $W$        & $[1                    ]$ & Maximum window size                                                      \\
+            $M$        & $[1                    ]$ & Modulo of sequence numbers                                               \\
+            $N$        & $[1                    ]$ & Avg client \# in the system                                              \\
+            $N_W$      & $[1                    ]$ & \# of clients in queue                                                   \\
+            $N_S$      & $[1                    ]$ & \# of clients being served                                               \\
+            $T$        & $[\SI{}{\second}       ]$ & Avg delay experienced by client                                          \\
         \end{tabular}
     \end{minipage}
 \end{center}
