@@ -19,8 +19,9 @@
     \section*{Tips \& tricks}
     \begin{enumerate}
         \setlength\itemsep{-0.2em}
-        \item Use a subnetwork tree to figure out which IP addresses have already been used.
+        \item Use subnetwork tree to check IP addresses being used.
         \item In redirect table problems, first create a redirect for all subnets, and then remove those entries that have gateway and interface equal to the default gateway.
+        \item All unicast IP addresses \textbf{includes router IPs}.
         \item Pay attention to what the question is asking for: throughput (débito), useful throughput (without redundant bits)
     \end{enumerate}
 \end{minipage}
@@ -39,19 +40,19 @@
     \end{tabular}
 \end{minipage}
 
-\begin{minipage}{0.15\textwidth}
+\begin{minipage}{0.06\textwidth}
     \subsection*{OSI model}
 \end{minipage}%
-\begin{minipage}{0.89\textwidth}
+\begin{minipage}{0.93\textwidth}
     \begin{tabular}{@{}p{9mm} | l | l | l | l | l@{}}
-        \multicolumn{3}{c|}{\textbf{Layer}}                    & Data unit                & Function                                                        & Protocols          \\ \hline
-        \multirow{4}{9mm}{Host layers}      & 7 & Application  & \multirow{3}{*}{Data}    & High-level APIs (resource sharing, remote file access)          &                    \\ \cline{2-3} \cline{5-6}
-                                            & 6 & Presentation &                          & Data translation (encoding, compression, encrypt/decrypt)       &                    \\ \cline{2-3} \cline{5-6}
-                                            & 5 & Session      &                          & Managing communication sessions                                 &                    \\ \cline{2-6}
-                                            & 4 & Transport    & Segment                  & Reliable segment transmission (segmentation, ACK)               & TCP,UDP            \\ \hline
-        \multirow{3}{9mm}{Media layers}     & 3 & Network      & Packet                   & Multi-node network (addressing, routing, traffic control)       & IP                 \\ \cline{2-6}
-                                            & 2 & Data link    & Frame                    & Reliable frame transmission between two nodes                   & ARP,MAC,Ethernet   \\ \cline{2-6}
-                                            & 1 & Physical     & Bit, symb.               & Communication of raw bits over physical medium                  &                    \\
+        \multicolumn{3}{c|}{\textbf{Layer}}                    & Data unit                & Function                                                        & Protocols             \\ \hline
+        \multirow{4}{9mm}{Host layers}      & 7 & Application  & \multirow{3}{*}{Data}    & High-level APIs (resource sharing, remote file access)          & DHCP, DNS, FTP, HTTP, RIP                      \\ \cline{2-3} \cline{5-6}
+                                            & 6 & Presentation &                          & Data translation (encoding, compression, encrypt/decrypt)       &                       \\ \cline{2-3} \cline{5-6}
+                                            & 5 & Session      &                          & Managing communication sessions                                 &                       \\ \cline{2-6}
+                                            & 4 & Transport    & Segment                  & Reliable segment transmission (segmentation, ACK)               & TCP,UDP               \\ \hline
+        \multirow{3}{9mm}{Media layers}     & 3 & Network      & Packet                   & Multi-node network (addressing, routing, traffic control)       & IP, ICMP              \\ \cline{2-6}
+                                            & 2 & Data link    & Frame                    & Reliable frame transmission between two nodes                   & ARP,MAC,Ethernet, PPP \\ \cline{2-6}
+                                            & 1 & Physical     & Bit, symb.               & Communication of raw bits over physical medium                  &                       \\
     \end{tabular}
 \end{minipage}%
 
@@ -353,7 +354,7 @@
     Separates private network from public network. Requests are rewritten to bear the NAT public address if going outside, or the dereferenced private address if going inside.
 
     \paragraph{Internet Control Message Protocol (ICMP)}
-    Used for error/control messages. Used e.g. by \texttt{ping}
+    Error/control messages. Used e.g. by \texttt{ping}. ICMP packets are encapsulated in IPv4 packets.
 
     \paragraph{IPv6}
     $\SI{128}{\bit}$ addresses.
@@ -399,7 +400,7 @@
     The receiver regularly broadcasts its receiver window \texttt{RWND}.
     Congestion window \texttt{CWND} is only kept/updated by the sender, and is used to implement congestion control (maximize efficiency, fairly distribute bandwidth).
 
-    \paragraph{Additive Increase/Multiplicative Decrease}
+    \paragraph{Additive Inc./Multip. Dec.}
     For each RTT, increment \texttt{CWND}; on timeout, divide \texttt{CWND} by 2. Sawtooth behavior.
 
     \paragraph{Slow Start}
@@ -432,7 +433,7 @@
     Also known as Exterior Gateway Routing Protocol (eBGP), usually for high-level networks in hierarchy (e.g. inside an ISP, or between ISPs).
 
     \subsection*{Ethernet}
-    Requires the network to be modelled as a tree, otherwise frames could loop forever. Uses a minimum spanning tree algorithm to build said tree.
+    Requires the network to be modelled as a tree, otherwise frames could loop forever. Uses a minimum spanning tree algorithm to build said tree, rooted in smallest ID switch.
 
     \subsection*{Flow network model}
     Networks are can be modelled as a flow network; packet networks are queue networks, as such this approach can only be used to estimate maximum data flow from one station to another.
