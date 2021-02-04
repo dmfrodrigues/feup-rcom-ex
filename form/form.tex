@@ -166,7 +166,8 @@
     \begin{minipage}[t]{0.60\linewidth}
         \paragraph{Go Back N}
         Allows transmission before previous frames were ACK. It sends ACK(NR) meaning it acknowledges all packets with $index < NR$.
-        If an out-of-sequence frame is received, REJ is sent with the expected frame number.
+        If an out-of-sequence frame is received, REJ is sent with the expected frame number on the first time; subsequent out-of-sequence frames are silently rejected.
+        \vspace{-1em}
         \begin{gather*}
             W = M-1 = 2^k-1 \\
             S = \begin{dcases}
@@ -312,10 +313,10 @@
     If busy, waits a random time and repeats (non-persistent).
 
     \paragraph{CSMA p-Pe.}
-    If free, transmits with probability $p$, or defers transmission to next slot with probability $1-p$.
+    If free, transmits with prob $p$, or defers transmission to next slot with prob $1-p$.
 
     \paragraph{CSMA/CD   }
-    Collision detection; similar to CSMA Persistent but if a collision is detected \textbf{during} transmission, it is aborted and retransmission is delayed using a Binary Exponential Backoff algorithm (if there were $i$ consecutive collisions, transmit in a random slot picked from slot set $[0, 2^i-1]$). Does not use ACKs. Slots have size $T_{slot}=2T_{prop}$. $\displaystyle \lim_{N \rightarrow\infty}{S}=1/(1+3.44a)$.
+    Collision detection; similar to CSMA Persistent but if a collision is detected \textbf{during} transmission, it is aborted and retransmission is delayed using a Binary Exponential Backoff algorithm (if there were $i$ consecutive collisions, transmit in a random slot picked from slot set $[0, 2^i-1]$). Does not use ACKs. Slots have size $T_{slot}=2T_{prop}$. $\lim_{N \rightarrow\infty}{S}=1/(1+3.44a)$. $T_f > \text{RTT}$ ensures all stations see collision.
 
     \paragraph{CSMA/CA} 
     Waits some DIFS time to check if no-one is transmitting, and then transmits; if someone is transmitting, then the current station waits DIFS plus a random backoff and tries again.
