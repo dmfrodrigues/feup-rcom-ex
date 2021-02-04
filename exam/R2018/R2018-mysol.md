@@ -5,20 +5,22 @@
 #### Pergunta 1
 Se numa transmissão de dados for usada para uma modulação 16QAM (constelação de 16 pontos) e for observado um débito binário de 8 kbit/s então o débito de símbolos desta ligação é de
 - a) 500 baud.
-- b) 2 kbaud.
+- b) 2 kbaud. :heavy_check_mark:
 - c) 8 kbaud.
 - d) 32 kbaud.
+
+**Justificação:** Nyquist bitrate: C = fs log2(M) <=> fs = C/log2(M) = 8000 bit/s / log2(16) = 2000 baud = 2 kbaud.
 
 #### Pergunta 2
 O protocolo de Transporte UDP (User Datagram Protocol) oferece às Aplicações que o usam:
 - a) Um serviço fiável orientado às ligações.
 - b) Um serviço fiável não orientado às ligações.
 - c) Um serviço não fiável orientado às ligações.
-- d) Um serviço não fiável não orientado às ligações.
+- d) Um serviço não fiável não orientado às ligações. :heavy_check_mark:
 
 #### Pergunta 3
 O envio de tramas de dados delimitadas por FLAGs com o valor FLAG=0x7E impõe a utilização de técnicas de stuffing. No processo de transmissão dos dados, a técnica de byte stuffing substitui no interior da trama
-- a) FLAG por ESC FLAG.
+- a) FLAG por ESC FLAG. :heavy_check_mark:
 - b) FLAG por FLAG ESC.
 - c) 11111 por 111110.
 - d) 111111 por 1111110
@@ -26,16 +28,20 @@ O envio de tramas de dados delimitadas por FLAGs com o valor FLAG=0x7E impõe a 
 #### Pergunta 4
 Considere o mecanismo ARQ Go-Back-N a funcionar com uma janela W=63. Considere também uma notação para representação do funcionamento do Recetor em que ?I(0).!RR(1) representa a receção (?) da mensagem I(0) seguida (.) do envio (!) da mensagem RR(1). O funcionamento do Recetor descrito pela sequência de eventos ?I(0).!RR(1).?I(1).?I(2).?I(4) poderá ser seguido por
 - a) !REJ(3).?I(5).?I(3).!RR(6)
-- b) !REJ(3).?I(5).?I(3).!RR(4)
+- b) !REJ(3).?I(5).?I(3).!RR(4) :heavy_check_mark:
 - c) !REJ(3).?I(5).!REJ(3).?I(3).!RR(6)
 - d) !REJ(3).?I(5).!REJ(3).?I(3).!RR(4)
+
+**Justificação:** Depois de receber I(2), o recetor fica à espera de I(3); ao receber I(4) (fora de ordem), o recetor envia REJ(3) para rejeitar e avisar que quer a frame com numero de sequencia 3. Ao receber I(5), discarta silenciosamente. Ao receber I(3), dá RR(4) (acknowledge até mas excluindo 4), logo é impossível RR(6) se ainda nem recebeu corretamente I(4) ou I(5).
 
 #### Pergunta 5
 Considere um meio partilhado por um conjunto de computadores. Assuma que a maior distância entre dois computadores é L [m] e que a informação se propaga no meio com uma velocidade S [m/s]. Assuma ainda que os computadores acedem ao meio usando o protocolo CSMA/CD (Collision Detection). Nesta situação, o tempo de transmissão T [s] de uma trama deve satisfazer a seguinte condição
 - a) T < L/S
 - b) L/S < T < 2L/S
-- c) T > 2L/S
+- c) T > 2L/S :heavy_check_mark:
 - d) Nenhuma das anteriores.
+
+**Justificação:** Para garantir que todas as estações detetam a colisão se ela existir, as frames têm que demorar tanto ou mais tempo a transmitir (Tf) do que o RTT, porque A pode começar a transmitir, B começar a transmitir um bocadinho antes de lhe chegar o sinal de A, mas quando o sinal de B chegar a A (para A se aperceber da colisão), A já vai ter acabado a transmissão e não se apercebe da colisão.
 
 #### Pergunta 6
 
@@ -44,24 +50,38 @@ Considere um meio partilhado por um conjunto de computadores. Assuma que a maior
 Considere a rede da figura constituída pelos comutadores Ethernet S1, S2 e S3 que executam o Spanning Tree Protocol (SPT) em que o identificador de Si é i . A esta rede encontram-se ligados os computadores A, B e C. Assumindo que as tabelas de encaminhamento dos comutadores estão inicialmente vazias e que ocorrem as transmissões (1) A envia para B, (2) B envia para A, (3) A envia para C, a tabela de encaminhamento do comutador S3 é constituída pelas seguintes entradas (endereço, porta)
 - a) (A,1), (B,2).
 - b) (A,1), (B,2), (C,3).
-- c) (A,2).
+- c) (A,2). :heavy_check_mark:
 - d) (A,2), (B,2).
+
+**Justificação:**
+
+A spanning tree tem raiz em S1, e é constituída por S1-S2, S1-S3 (logo S2-S3 é bloqueado).
+
+A->B: segue caminho A->S2->S1->B, logo S3 não faz ideia do que está a acontecer.  
+B->A: segue caminho B->S1->S2->A, logo S3 não faz ideia do que está a acontecer.  
+A->C: segue caminho A->S2->S1->S3->C, logo S3 associa o endereço de A à porta 2.
 
 #### Pergunta 7
 
 Assuma que um computador se liga à rede e pretende obter o seu endereço IP através de DHCP. Na primeira mensagem enviada pelo computador (DHCP Discover) os endereços de origem e destino são:
 - a) Origem= 0.0.0.0, Destino=0.0.0.0
-- b) Origem= 0.0.0.0, Destino=255.255.255.255
+- b) Origem= 0.0.0.0, Destino=255.255.255.255 :heavy_check_mark:
 - c) Origem= 255.255.255.255, Destino=0.0.0.0
 - d) Origem= 255.255.255.255, Destino=255.255.255.255
+
+**Justificação:** A origem é 0.0.0.0 porque o computador ainda não tem endereço IP, então usa 0.0.0.0 que costuma ser convencionado como IP inválido/inexistente.
+
+O destino é o broadcast local 255.255.255.255, porque o computador não sabe os IPs dos servidores DNS na subnet local (nem sabe se existem servidores DNS), por isso é que se chama um pedido DISCOVER.
 
 #### Pergunta 8
 
 O valor da janela de congestionamento de uma ligação TCP é calculado pelo
 - a) emissor e mantém-se constante durante uma ligação TCP.
-- b) emissor e pode variar durante uma ligação TCP.
+- b) emissor e pode variar durante uma ligação TCP. :heavy_check_mark:
 - c) recetor, enviado por este ao emissor no campo Window Size da mensagem de ACK e mantém-se constante durante uma a ligação TCP.
 - d) recetor, enviado por este ao emissor no campo Window Size da mensagem de ACK e pode variar durante uma ligação TCP.
+
+**Justificação:** A janela de congestionamento da ligação TCP não é anunciada, é apenas mantida pelo emissor. O emissor pode (e deve) alterar a janela de congestionamento para ter em conta a dinâmica da rede (carga variável sobre a rede, alteração da topologia), senão não tinha grande utilidade a janela de congestionamento.
 
 #### Pergunta 9
 Na figura seguinte, se o computador do segmento C fizer ping ao Computador do segmento A, indique os endereços IP e MAC constantes do pacote que transporta a mensagem ICMP Echo Request no segmento A.
@@ -71,7 +91,7 @@ Na figura seguinte, se o computador do segmento C fizer ping ao Computador do se
 - a) IPorig=4, IPdest=1, MACorig=2, MACdest=1.
 - b) IPorig=4, IPdest=1, MACorig=4, MACdest=1.
 - c) IPorig=6, IPdest=1, MACorig=2, MACdest=1.
-- d) IPorig=6, IPdest=1, MACorig=4, MACdest=1.
+- d) IPorig=6, IPdest=1, MACorig=4, MACdest=1. :heavy_check_mark:
 
 #### Pergunta 10
 
@@ -79,7 +99,7 @@ Na figura seguinte, se o computador do segmento C fizer ping ao Computador do se
 
 Se na rede da figura o custo de cada ligação for igual ao tempo de transmissão de um pacote através dessa ligação e se for usado um protocolo de rotas do tipo link-state, então o débito máximo possível de A para D é
 - a) 1 Mbit/s.
-- b) 2 Mbit/s.
+- b) 2 Mbit/s. :heavy_check_mark:
 - c) 3 Mbit/s
 - d) 6 Mbit/s
 
@@ -143,11 +163,7 @@ Admita agora que os pacotes passam a ter um tamanho constante de 1500 bytes, que
 | 12,5 ou 18 (1 Mbit/s) |                   |                       |
 
 #### Pergunta 3
-Considere que a uma empresa foi atribuído o bloco de endereços IP 20.20.20.128/26. A empresa tem um rede de
-comunicações com a arquitetura descrita na figura, composta por 4 routers (R1, R2, R3, R4) e 3 switches Ethernet.
-Um dos switches serve 24 computadores, outro serve 13 computadores e o terceiro interliga os routers R1, R2 e
-R3. Os routers R3 e R4 estão interligados por uma ligação ponto-a-ponto, à qual foi atribuído o endereço de rede
-20.20.20.180/30.
+Considere que a uma empresa foi atribuído o bloco de endereços IP 20.20.20.128/26. A empresa tem um rede de comunicações com a arquitetura descrita na figura, composta por 4 routers (R1, R2, R3, R4) e 3 switches Ethernet. Um dos switches serve 24 computadores, outro serve 13 computadores e o terceiro interliga os routers R1, R2 e R3. Os routers R3 e R4 estão interligados por uma ligação ponto-a-ponto, à qual foi atribuído o endereço de rede 20.20.20.180/30.
 
 <img src="R2018-pt2-03.png">
 
