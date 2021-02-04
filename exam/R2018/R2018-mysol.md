@@ -113,8 +113,27 @@ Calcule a eficiência máxima do protocolo para as variantes Stop and Wait, Go B
 
 |                           | Stop and Wait | Go Back N | Selective Repeat  |
 |---------------------------|---------------|-----------|-------------------|
-| Eficiência máxima (%)     |               |           |                   |
-| Débito máximo (kbit/s)    |               |           |                   |
+| Eficiência máxima (%)     | 3.85          | 26.92     | 15.38             |
+| Débito máximo (kbit/s)    | 15.4          | 107.7     | 61.5              |
+
+**Justificação:**
+
+Tprop = 50 ms = 0.050 s  
+L = 200 B = 1600 bit  
+C = 400 kbit/s = 250 pac/s  
+k = 3  
+M = 8  
+Tf = 1/C = 0.004 s  
+a = Tprop/Tf = 0.050 s / 0.004 s = 12.5  
+
+Debito = C*S
+
+| Stop and Wait                 | Go Back N                             | Selective Repeat              |
+|-------------------------------|---------------------------------------|-------------------------------|
+|                               | W = M-1 = 7                           | W = M/2 = 4                   |
+|                               | W < 1+2a <=> 7 < 26                   | W < 1+2a <=> 4 < 26           |
+| S = (1-pe)/(1+2a) = 0.0385    | S = W(1-pe)/(1+2a)(1-pe+Wpe) = 0.2692 | S = W(1-pe)/(1+2a) = 0.1538   |
+| Debito = 15.4 kbit/s          | Debito = 107.7 kbit/s                 | Debito = 61.5 kbit/s          |
 
 ##### Item (b)
 
@@ -122,8 +141,16 @@ Suponha que o emissor tem um bloco de 20 kbit de dados para transmitir a pedido 
 
 |                                   | Stop and Wait     | Go Back N     | Selective Repeat  |
 |-----------------------------------|-------------------|---------------|-------------------|
-| Tempo de envio do bloco (ms)      |                   |               |                   |
-| Débito observado (kbit/s)         |                   |               |                   |
+| Tempo de envio do bloco (ms)      | 1350              | 222           | 414               |
+| Débito observado (kbit/s)         | 14.8              | 90            | 48                |
+
+**Justificação:**
+
+20kbit = 20 000 bit, que são 20 000 bit / 1600 bit = 12.5; logo são 13 pacotes.
+
+Stop & Wait: 12.5\*Tf + 13\*RTT = 12.5\*Tf + 26\*Tprop = 1.35 s = 1350 ms  
+Go Back N: 222ms
+Selective Repeat: 414 ms
 
 ##### Item (c)
 
@@ -131,9 +158,21 @@ Considere que era utilizado o mecanismo do tipo Selective Repeat numa situação
 
 | Parâmetro                 | Valor       |
 |---------------------------|-------------|
-| W                         |             |
-| K                         |             |
-| Utilização máxima (%)     |             |
+| W                         | 26          |
+| K                         | 6           |
+| Utilização máxima (%)     | 85.21       |
+
+**Justificação:**
+
+L = 1600 bit  
+pe = FER = 1-(1-BER)^(L/bit) = 0.1479
+
+A eficiência máxima é Smax = 1-pe = 0.8521, e é obtida com W ≥ 1+2a.
+
+W = 1+2a <=> W = 26
+
+M = 64  
+k = 6  
 
 #### Pergunta 2
 Admita que a porta de saída de um router é modelizada por uma fila de espera M/M/1 de capacidade infinita. Observa-se que em média são transmitidos através desta porta 60 pac/s de comprimento médio de 1500 bytes; a linha associada à porta encontra-se em transmissão cerca de 50% do tempo.
@@ -143,24 +182,70 @@ Calcule a capacidade de transmissão da porta de saída do router, o tempo médi
 
 |                                                       |           |
 |-------------------------------------------------------|-----------|
-| Capacidade de transmissão da porta (kbit/s)           |           |
-| Tempo médio de atraso dos pacotes, T, (ms)            |           |
-| Ocupação média da fila de espera, Nw                  |           |
+| Capacidade de transmissão da porta (kbit/s)           | 1440      |
+| Tempo médio de atraso dos pacotes, T, (ms)            | 16.667    |
+| Ocupação média da fila de espera, Nw                  | 0.5       |
+
+**Justificação:**
+
+L = 1500 B = 12000 bit  
+λ = 60 pac/s = 720 000 bit/s  
+ρ = 0.50  
+
+ρ = λ/μ <=> μ = λ/ρ = 60 pac/s / 0.5 = 120 pac/s = 1 440 000 bit/s = 1440 kbit/s
+
+T = 1/(μ-λ) = 1/(120 pac/s - 60 pac/s) = 0.016667 s = 16.667 ms
+
+Nw = N-ρ = ρ/(1-ρ) - ρ = 0.5
 
 ##### Item (b)
 Admita que para o mesmo tráfego transportado pelo sistema (em bit/s) os pacotes passavam, em situações diferentes, a ter um comprimento médio respetivamente de L1=750 bytes e L2= 3000 bytes. Para estas duas situações calcule o atraso médio dos pacotes (T) e a ocupação média da fila de espera (N w). Indique justificando qual das duas situações parece ser a melhor.
 
 |                                       | Situação 1    | Situação 2    |
 |---------------------------------------|---------------|---------------|
-| Atraso médio dos pacotes, T (ms)      |               |               |
-| Ocupação média da fila de espera, Nw  |               |               |
+| Atraso médio dos pacotes, T (ms)      | 8.333         | 33.333        |
+| Ocupação média da fila de espera, Nw  | 0.5           | 0.5           |
+
+**Justificação:**
+
+λ = 720 000 bit/s
+
+| Situação 1                                        | Situação 2                                        |
+|---------------------------------------------------|---------------------------------------------------|
+| L = 750 B = 6000 bit                              | L = 3000 B = 24 000 bit                           |
+| λ =   720 000 bit/s = 120 pac/s                   | λ =   120 000 bit/s = 30 pac/s                    |
+| μ = 1 440 000 bit/s = 240 pac/s                   | μ = 1 440 000 bit/s = 60 pac/s                    |
+| T = 1/(μ-λ) = 1/(240-120) = 0.008333 s = 8.333 ms | T = 1/(μ-λ) = 1/(60-30) = 0.033333 s = 33.333 ms  |
+
+ρ continua a ser 0.5, logo mantém-se a ocupação da fila de 0.5.
+
+A melhor opção é a situação 1, dado que ambas as situações possuem a mesma ocupação média da fila de espera (logo ocupam a mesma quantidade média de recursos para a fila), mas a situação 1 tem menos atraso (8ms contra 33ms).
 
 ##### Item (c)
 Admita agora que os pacotes passam a ter um tamanho constante de 1500 bytes, que a linha tem um comprimento de 200 km, que a informação de propaga nessa linha com um atraso de 5µs/km e que, no outro extremo dessa linha, se encontra um segundo router modelizavel também por uma fila de espera e que transmite informação a 100 Mbit/s. Calcule o atraso médio dos pacotes na fila do primeiro router (T1), o atraso médio dos pacotes na fila do segundo router (T2), e o atraso médio total dos pacotes neste sistema (T total). No caso de não ter resolvido as alíneas anteriores assuma que o débito de transmissão da porta do primeiro router é de 1 Mbit/s.
 
 | T1 (ms)               | T2 (ms)           | Ttotal (ms)           |
 |-----------------------|-------------------|-----------------------|
-| 12,5 ou 18 (1 Mbit/s) |                   |                       |
+| 12.5                  | 0.12              | 13.62                 |
+
+**Justificação:**
+
+Fila M/D/1
+
+L = 1500 B = 12000 bit  
+D = 200 km  
+Atraso = 5µs/km = 0.000005 s/km  
+Tprop = D*Atraso = 0.001 s = 1 ms  
+
+μ1 = 1 440 000 bit/s = 120 pac/s   
+λ1 = λ2 =   720 000 bit/s =  60 pac/s  
+ρ1 = 0.5  
+
+T1 = Tw1 + 1/μ1 = ρ1/(2\*μ1(1-ρ1)) + 1/μ1 = 0.0125 s = 12.5 ms
+
+μ2 = 100 Mbit/s = 100 000 000 bit/s = 8333.3 pac/s
+
+O router 2 é uma fila em que não vai haver esperas: T2 = Tf = 0.00012 s = 0.12 ms
 
 #### Pergunta 3
 Considere que a uma empresa foi atribuído o bloco de endereços IP 20.20.20.128/26. A empresa tem um rede de comunicações com a arquitetura descrita na figura, composta por 4 routers (R1, R2, R3, R4) e 3 switches Ethernet. Um dos switches serve 24 computadores, outro serve 13 computadores e o terceiro interliga os routers R1, R2 e R3. Os routers R3 e R4 estão interligados por uma ligação ponto-a-ponto, à qual foi atribuído o endereço de rede 20.20.20.180/30.
@@ -172,22 +257,22 @@ Calcule os endereços de rede associados às redes indicadas.
 
 |                               | Endereço da subrede (endereço/máscara)    | Endereço de broadcast da subrede  | Nº de endereços de interfaces     |
 |-------------------------------|-------------------------------------------|-----------------------------------|-----------------------------------|
-| Rede dos 24 computadores      |                                           |                                   |                                   |
-| Rede dos 13 computadores      |                                           |                                   |                                   |
-| Rede dos routers R1, R2 e R3  |                                           |                                   |                                   |
+| Rede dos 24 computadores      | 20.20.20.128/27                           | 20.20.20.159                      | 30                                |
+| Rede dos 13 computadores      | 20.20.20.160/28                           | 20.20.20.175                      | 14                                |
+| Rede dos routers R1, R2 e R3  | 20.20.20.184/29                           | 20.20.20.191                      | 6                                 |
 
 ##### Item (b)
 Atribua endereços IP às interfaces dos routers R1, R2, R3 e R4. Use os endereços mais baixos de cada subrede. Numa sub-rede atribua os endereços mais baixos aos routers de índice Ri mais baixo. Por exemplo, o endereço de R3.eth1 deverá ser inferior ao endereço R4.eth0.
 
 | Router.interface  | Endereço(s) IP    |
 |-------------------|-------------------|
-| R1.eth0           |                   |
-| R2.eth0           |                   |
-| R2.eth1           |                   |
-| R3.eth0           |                   |
-| R3.eth1           |                   |
-| R4.eth0           |                   |
-| R4.eth1           |                   |
+| R1.eth0           | 20.20.20.185      |
+| R2.eth0           | 20.20.20.186      |
+| R2.eth1           | 20.20.20.129      |
+| R3.eth0           | 20.20.20.187      |
+| R3.eth1           | 20.20.20.181      |
+| R4.eth0           | 20.20.20.182      |
+| R4.eth1           | 20.20.20.161      |
 
 ##### Item (c)
 
@@ -197,3 +282,8 @@ Escreva a tabela de encaminhamento do router R2. Este router deverá ser capaz e
 
 | Destino (endereço/máscara)    | Gateway       | Interface |
 |-------------------------------|---------------|-----------|
+| 20.20.20.128/27               | -             | eth1      |
+| 20.20.20.184/28               | -             | eth0      |
+| 20.20.20.180/30               | 20.20.20.187  | eth0      |
+| 20.20.20.160/28               | 20.20.20.187  | eth0      |
+| 0/0                           | 20.20.20.185  | eth0      |
