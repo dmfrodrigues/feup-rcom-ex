@@ -1,0 +1,183 @@
+## Recurso 2018
+
+### Parte 1
+
+#### Pergunta 1
+Se numa transmissão de dados for usada para uma modulação 16QAM (constelação de 16 pontos) e for observado um débito binário de 8 kbit/s então o débito de símbolos desta ligação é de
+- a) 500 baud.
+- b) 2 kbaud.
+- c) 8 kbaud.
+- d) 32 kbaud.
+
+#### Pergunta 2
+O protocolo de Transporte UDP (User Datagram Protocol) oferece às Aplicações que o usam:
+- a) Um serviço fiável orientado às ligações.
+- b) Um serviço fiável não orientado às ligações.
+- c) Um serviço não fiável orientado às ligações.
+- d) Um serviço não fiável não orientado às ligações.
+
+#### Pergunta 3
+O envio de tramas de dados delimitadas por FLAGs com o valor FLAG=0x7E impõe a utilização de técnicas de stuffing. No processo de transmissão dos dados, a técnica de byte stuffing substitui no interior da trama
+- a) FLAG por ESC FLAG.
+- b) FLAG por FLAG ESC.
+- c) 11111 por 111110.
+- d) 111111 por 1111110
+
+#### Pergunta 4
+Considere o mecanismo ARQ Go-Back-N a funcionar com uma janela W=63. Considere também uma notação para representação do funcionamento do Recetor em que ?I(0).!RR(1) representa a receção (?) da mensagem I(0) seguida (.) do envio (!) da mensagem RR(1). O funcionamento do Recetor descrito pela sequência de eventos ?I(0).!RR(1).?I(1).?I(2).?I(4) poderá ser seguido por
+- a) !REJ(3).?I(5).?I(3).!RR(6)
+- b) !REJ(3).?I(5).?I(3).!RR(4)
+- c) !REJ(3).?I(5).!REJ(3).?I(3).!RR(6)
+- d) !REJ(3).?I(5).!REJ(3).?I(3).!RR(4)
+
+#### Pergunta 5
+Considere um meio partilhado por um conjunto de computadores. Assuma que a maior distância entre dois computadores é L [m] e que a informação se propaga no meio com uma velocidade S [m/s]. Assuma ainda que os computadores acedem ao meio usando o protocolo CSMA/CD (Collision Detection). Nesta situação, o tempo de transmissão T [s] de uma trama deve satisfazer a seguinte condição
+- a) T < L/S
+- b) L/S < T < 2L/S
+- c) T > 2L/S
+- d) Nenhuma das anteriores.
+
+#### Pergunta 6
+
+<img src="R2018-pt1-06.png" width="400">
+
+Considere a rede da figura constituída pelos comutadores Ethernet S1, S2 e S3 que executam o Spanning Tree Protocol (SPT) em que o identificador de Si é i . A esta rede encontram-se ligados os computadores A, B e C. Assumindo que as tabelas de encaminhamento dos comutadores estão inicialmente vazias e que ocorrem as transmissões (1) A envia para B, (2) B envia para A, (3) A envia para C, a tabela de encaminhamento do comutador S3 é constituída pelas seguintes entradas (endereço, porta)
+- a) (A,1), (B,2).
+- b) (A,1), (B,2), (C,3).
+- c) (A,2).
+- d) (A,2), (B,2).
+
+#### Pergunta 7
+
+Assuma que um computador se liga à rede e pretende obter o seu endereço IP através de DHCP. Na primeira mensagem enviada pelo computador (DHCP Discover) os endereços de origem e destino são:
+- a) Origem= 0.0.0.0, Destino=0.0.0.0
+- b) Origem= 0.0.0.0, Destino=255.255.255.255
+- c) Origem= 255.255.255.255, Destino=0.0.0.0
+- d) Origem= 255.255.255.255, Destino=255.255.255.255
+
+#### Pergunta 8
+
+O valor da janela de congestionamento de uma ligação TCP é calculado pelo
+- a) emissor e mantém-se constante durante uma ligação TCP.
+- b) emissor e pode variar durante uma ligação TCP.
+- c) recetor, enviado por este ao emissor no campo Window Size da mensagem de ACK e mantém-se constante durante uma a ligação TCP.
+- d) recetor, enviado por este ao emissor no campo Window Size da mensagem de ACK e pode variar durante uma ligação TCP.
+
+#### Pergunta 9
+Na figura seguinte, se o computador do segmento C fizer ping ao Computador do segmento A, indique os endereços IP e MAC constantes do pacote que transporta a mensagem ICMP Echo Request no segmento A.
+
+<img src="R2018-pt1-09.png" width="600">
+
+- a) IPorig=4, IPdest=1, MACorig=2, MACdest=1.
+- b) IPorig=4, IPdest=1, MACorig=4, MACdest=1.
+- c) IPorig=6, IPdest=1, MACorig=2, MACdest=1.
+- d) IPorig=6, IPdest=1, MACorig=4, MACdest=1.
+
+#### Pergunta 10
+
+<img src="R2018-pt1-10.png" width="200">
+
+Se na rede da figura o custo de cada ligação for igual ao tempo de transmissão de um pacote através dessa ligação e se for usado um protocolo de rotas do tipo link-state, então o débito máximo possível de A para D é
+- a) 1 Mbit/s.
+- b) 2 Mbit/s.
+- c) 3 Mbit/s
+- d) 6 Mbit/s
+
+### Parte 2
+
+#### Pergunta 1
+Duas estações comunicam usando uma ligação de dados baseada em mecanismos ARQ. A capacidade do canal é de 400 kbit/s, o atraso de propagação (num sentido) é de 50 ms e as tramas de Informação têm um tamanho fixo de 200 octetos. Considere que são usados 3 bits para numerar as tramas de Informação e que as tramas de controlo têm um tamanho desprezável.
+
+##### Item (a)
+Calcule a eficiência máxima do protocolo para as variantes Stop and Wait, Go Back N e Selective Repeat. Calcule também os débitos máximos correspondentes.
+
+|                           | Stop and Wait | Go Back N | Selective Repeat  |
+|---------------------------|---------------|-----------|-------------------|
+| Eficiência máxima (%)     |               |           |                   |
+| Débito máximo (kbit/s)    |               |           |                   |
+
+##### Item (b)
+
+Suponha que o emissor tem um bloco de 20 kbit de dados para transmitir a pedido da camada de rede. Desprezando os overheads introduzidos pelo protocolo de ligação lógica, calcule para cada variante ARQ o tempo necessário para o envio do bloco de dados (até ser recebida a última confirmação) e o débito observado pela camada superior. Assuma que todas as tramas recebidas pelo recetor são confirmadas. Se necessário recorra a diagramas.
+
+|                                   | Stop and Wait     | Go Back N     | Selective Repeat  |
+|-----------------------------------|-------------------|---------------|-------------------|
+| Tempo de envio do bloco (ms)      |                   |               |                   |
+| Débito observado (kbit/s)         |                   |               |                   |
+
+##### Item (c)
+
+Considere que era utilizado o mecanismo do tipo Selective Repeat numa situação de erro caracterizada por um BER=10^-4. Que janela (W) e quantos bits de numeração (K) escolheria para obter a utilização máxima teórica do canal? Qual seria a utilização máxima do canal nessa situação?
+
+| Parâmetro                 | Valor       |
+|---------------------------|-------------|
+| W                         |             |
+| K                         |             |
+| Utilização máxima (%)     |             |
+
+#### Pergunta 2
+Admita que a porta de saída de um router é modelizada por uma fila de espera M/M/1 de capacidade infinita. Observa-se que em média são transmitidos através desta porta 60 pac/s de comprimento médio de 1500 bytes; a linha associada à porta encontra-se em transmissão cerca de 50% do tempo.
+
+##### Item (a)
+Calcule a capacidade de transmissão da porta de saída do router, o tempo médio de atraso dos pacotes e a ocupação média da fila de espera da porta.
+
+|                                                       |           |
+|-------------------------------------------------------|-----------|
+| Capacidade de transmissão da porta (kbit/s)           |           |
+| Tempo médio de atraso dos pacotes, T, (ms)            |           |
+| Ocupação média da fila de espera, Nw                  |           |
+
+##### Item (b)
+Admita que para o mesmo tráfego transportado pelo sistema (em bit/s) os pacotes passavam, em situações diferentes, a ter um comprimento médio respetivamente de L1=750 bytes e L2= 3000 bytes. Para estas duas situações calcule o atraso médio dos pacotes (T) e a ocupação média da fila de espera (N w). Indique justificando qual das duas situações parece ser a melhor.
+
+|                                       | Situação 1    | Situação 2    |
+|---------------------------------------|---------------|---------------|
+| Atraso médio dos pacotes, T (ms)      |               |               |
+| Ocupação média da fila de espera, Nw  |               |               |
+
+##### Item (c)
+Admita agora que os pacotes passam a ter um tamanho constante de 1500 bytes, que a linha tem um comprimento de 200 km, que a informação de propaga nessa linha com um atraso de 5µs/km e que, no outro extremo dessa linha, se encontra um segundo router modelizavel também por uma fila de espera e que transmite informação a 100 Mbit/s. Calcule o atraso médio dos pacotes na fila do primeiro router (T1), o atraso médio dos pacotes na fila do segundo router (T2), e o atraso médio total dos pacotes neste sistema (T total). No caso de não ter resolvido as alíneas anteriores assuma que o débito de transmissão da porta do primeiro router é de 1 Mbit/s.
+
+| T1 (ms)               | T2 (ms)           | Ttotal (ms)           |
+|-----------------------|-------------------|-----------------------|
+| 12,5 ou 18 (1 Mbit/s) |                   |                       |
+
+#### Pergunta 3
+Considere que a uma empresa foi atribuído o bloco de endereços IP 20.20.20.128/26. A empresa tem um rede de
+comunicações com a arquitetura descrita na figura, composta por 4 routers (R1, R2, R3, R4) e 3 switches Ethernet.
+Um dos switches serve 24 computadores, outro serve 13 computadores e o terceiro interliga os routers R1, R2 e
+R3. Os routers R3 e R4 estão interligados por uma ligação ponto-a-ponto, à qual foi atribuído o endereço de rede
+20.20.20.180/30.
+
+<img src="R2018-pt2-03.png">
+
+##### Item (a)
+Calcule os endereços de rede associados às redes indicadas.
+
+|                               | Endereço da subrede (endereço/máscara)    | Endereço de broadcast da subrede  | Nº de endereços de interfaces     |
+|-------------------------------|-------------------------------------------|-----------------------------------|-----------------------------------|
+| Rede dos 24 computadores      |                                           |                                   |                                   |
+| Rede dos 13 computadores      |                                           |                                   |                                   |
+| Rede dos routers R1, R2 e R3  |                                           |                                   |                                   |
+
+##### Item (b)
+Atribua endereços IP às interfaces dos routers R1, R2, R3 e R4. Use os endereços mais baixos de cada subrede. Numa sub-rede atribua os endereços mais baixos aos routers de índice Ri mais baixo. Por exemplo, o endereço de R3.eth1 deverá ser inferior ao endereço R4.eth0.
+
+| Router.interface  | Endereço(s) IP    |
+|-------------------|-------------------|
+| R1.eth0           |                   |
+| R2.eth0           |                   |
+| R2.eth1           |                   |
+| R3.eth0           |                   |
+| R3.eth1           |                   |
+| R4.eth0           |                   |
+| R4.eth1           |                   |
+
+##### Item (c)
+
+(Use as linhas que for necessário)
+
+Escreva a tabela de encaminhamento do router R2. Este router deverá ser capaz enviar pacotes para todos os endereços IP unicast. Use o menor número possível de entradas na tabela.
+
+| Destino (endereço/máscara)    | Gateway       | Interface |
+|-------------------------------|---------------|-----------|
